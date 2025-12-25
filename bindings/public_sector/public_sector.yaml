@@ -1,0 +1,113 @@
+version: 1.0
+kind: boa_binding
+id: boa_binding_public_sector
+
+domain:
+  name: public_sector
+  ja: 公共・行政
+  en: Public Sector
+
+purpose:
+  - Preserve accountability and explainability under policy constraints
+  - Make interpretation boundaries explicit across agencies and time
+
+core_mapping:
+  Fact:
+    examples:
+      - citizen_requests_intake
+      - case_events_and_timestamps
+      - sensor_observations_infrastructure
+      - budget_transactions
+      - meeting_minutes_as_records
+    invariants:
+      - Immutable record of what happened
+      - Provenance preserved (who/when/source)
+      - Corrections are additive (amendment), not overwrite
+
+  Meaning:
+    examples:
+      - eligibility_judgement
+      - risk_classification
+      - prioritization_for_service
+      - policy_interpretation
+    rules:
+      - Meaning must declare legal/policy basis and effective date
+      - Different agencies may hold different meanings for same Fact
+
+  Responsibility:
+    owners:
+      - case_worker
+      - department_head
+      - legal_officer
+      - elected_official_when_applicable
+    notes:
+      - Responsibility is explicitly assigned by law/process
+      - Decisions must be traceable and explainable
+
+boundaries:
+  - name: intake_to_case
+    description: Raw requests become a formal case with legal handling
+    shifts:
+      meaning: "request narrative -> case classification"
+      responsibility: "front desk -> case worker"
+      resolution: "case schema + required fields fixed here"
+
+  - name: policy_change_boundary
+    description: Same Facts interpreted under updated policy/rules
+    shifts:
+      meaning: "old policy -> new policy"
+      responsibility: "policy owner -> executing departments"
+      resolution: "policy version fixed per period/case type"
+
+  - name: inter_agency_handoff
+    description: Responsibility moves across departments/agencies
+    shifts:
+      meaning: "local interpretation -> receiving agency interpretation"
+      responsibility: "agency A -> agency B"
+      resolution: "handoff package definition fixed"
+
+resolution_contracts:
+  - id: r_operational_support
+    applies_to: [triage, summarization, anomaly_detection]
+    guarantees:
+      - "assist_only": true
+      - "no_final_decision": true
+    requires_human_judgment:
+      - "case worker approval"
+      - "legal check when threshold met"
+
+  - id: r_public_reporting
+    applies_to: [statistics, public_dashboard, accountability_reports]
+    guarantees:
+      - "traceable_sources": true
+      - "explainable_definitions": true
+    requires_human_judgment:
+      - "department sign-off"
+      - "disclosure risk assessment"
+
+ai_positioning:
+  allowed:
+    - summarize case history
+    - propose policy-relevant checklists
+    - detect inconsistencies or missing records
+  forbidden:
+    - decide eligibility
+    - decide enforcement actions
+    - generate official statements without approval
+
+failure_modes:
+  - name: policy_version_confusion
+    symptom: "same case type yields different outcomes without declared basis"
+    mitigation:
+      - "Meaning must carry policy/legal version + effective date"
+      - "Resolution gate for public reporting"
+
+  - name: accountability_blur
+    symptom: "decision rationale cannot be traced"
+    mitigation:
+      - "explicit Responsibility owner for each decision"
+      - "store decision memo as Meaning artifact linked to Facts"
+
+binding_notes:
+  - "Public sector boundaries are often time-based (policy versions) and org-based (handoffs)."
+  - "Resolution must include explainability and provenance requirements."

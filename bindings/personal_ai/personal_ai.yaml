@@ -1,0 +1,29 @@
+version: 1.0
+kind: boa_binding
+id: boa_binding_personal_ai
+
+domain:
+  name: personal_ai
+  ja: パーソナルAI
+  en: Personal AI
+
+purpose:
+  - Keep personal context useful without leaking responsibility
+  - Define safe promotion from private hypotheses to shared decisions
+
+boundaries:
+  - name: private_to_shared
+    description: Personal context must not cross into shared artifacts
+    shifts:
+      meaning: "private hypothesis -> auditable shared statement"
+      responsibility: "individual -> role/organization"
+      resolution: "r_shared_publish"
+
+resolution_contracts:
+  - id: r_shared_publish
+    guarantees:
+      - provenance_required: true
+      - private_context_removed: true
+      - decision_owner_declared: true
+    requires_human_judgment:
+      - "role owner approves publication"

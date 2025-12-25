@@ -1,0 +1,187 @@
+version: 1.1
+kind: architecture_core
+id: boundary_oriented_architecture_core
+
+name:
+  short: BOA
+  full: Boundary-Oriented Architecture
+
+tagline:
+  en: Separate Fact, Meaning, and Responsibility by declaring boundaries
+  ja: 事実・意味・責務を「境界」で分離するアーキテクチャ
+
+intent:
+  - This file defines the immutable core of BOA
+  - It is designed to be read by humans and LLMs
+  - It does not prescribe implementation details
+  - It assumes the existence of Personal AI as a first-class actor
+
+---
+
+philosophy:
+  premise:
+    - Fact is immutable
+    - Meaning is contextual and revisable
+    - Responsibility cannot be automated
+    - Boundaries exist to protect systems from misinterpretation
+    - Personal context is powerful and dangerous
+
+  anti_goals:
+    - Automating human judgment
+    - Hiding responsibility behind systems or AI
+    - Treating AI output as decision
+    - Allowing private context to silently affect shared outcomes
+
+---
+
+core_concepts:
+
+  Fact:
+    definition:
+      - Observed data at a specific time and place
+    properties:
+      - Immutable
+      - Append-only
+      - Context-free
+    non_properties:
+      - No business meaning
+      - No prediction
+      - No correction
+
+  Meaning:
+    definition:
+      - Interpretation applied to Facts
+    properties:
+      - Contextual
+      - Revisable
+      - Multiple meanings may coexist
+    constraints:
+      - Must not overwrite Fact
+      - Must declare its context and basis
+
+  Responsibility:
+    definition:
+      - Accountability for decisions and outcomes
+    properties:
+      - Always human-owned
+      - Explicitly declared
+    constraints:
+      - Cannot be delegated to systems or AI
+      - Must be traceable and auditable
+
+---
+
+boundary:
+
+  declaration:
+    - A boundary is where interpretation changes
+    - A boundary is where responsibility shifts
+    - A boundary is where resolution is fixed
+
+  functions:
+    allows:
+      - Asynchronous processing
+      - Partial failure
+      - Independent evolution
+    prevents:
+      - Silent meaning drift
+      - Responsibility leakage
+      - Implicit coupling
+      - Private bias crossing into shared decisions
+
+---
+
+resolution:
+
+  definition:
+    - The level at which Meaning is stabilized for use
+  properties:
+    - Explicit
+    - Purpose-bound
+    - Time-bound
+    - Auditable
+  notes:
+    - Resolution is not accuracy
+    - Resolution is a contract
+    - Promotion across boundaries requires Resolution
+
+---
+
+ai_positioning:
+
+  general_ai:
+    role:
+      - Generate hypotheses
+      - Suggest interpretations
+      - Detect inconsistencies
+    forbidden:
+      - Making final decisions
+      - Modifying Facts
+      - Owning responsibility
+
+---
+
+personal_ai:
+
+  definition:
+    - A Personal AI is an assistant bound to an individual’s private context
+    - It supports interpretation and thinking, not decision ownership
+
+  invariants:
+    - Personal AI never becomes a Responsibility owner
+    - Personal AI outputs are Hypotheses by default
+    - Personal AI context is not authoritative
+    - Personal AI may be wrong in systematic ways
+
+  context_scope:
+    valid_within:
+      - individual thinking
+      - private analysis
+      - draft reasoning
+    invalid_within:
+      - shared decisions
+      - official records
+      - accountable outcomes
+
+  boundary_rule:
+    - When crossing organizational, legal, or accountability boundaries,
+      Personal AI context must be re-declared or discarded
+    - Only Resolution outputs may be promoted to shared artifacts
+    - Private context must be stripped during promotion
+
+  promotion_guard:
+    requires:
+      - explicit Resolution
+      - declared human Responsibility owner
+      - auditable rationale
+    forbids:
+      - silent copy-paste of Personal AI conclusions
+      - implicit trust based on personalization
+
+---
+
+evolution:
+
+  allowed_changes:
+    - New bindings
+    - New examples
+    - Clarifications
+  restricted_changes:
+    - Fact / Meaning / Responsibility separation
+    - Boundary and Resolution principles
+    - Human-owned responsibility
+  versioning:
+    - Breaking changes require new core version
+
+---
+
+scope:
+
+  applicable_to:
+    - Industrial systems
+    - Information systems
+    - Socio-technical systems
+    - AI-assisted decision environments
+  not_applicable_to:
+    - Fully autonomous decision systems
+    - Domains requiring zero ambiguity and zero human judgment

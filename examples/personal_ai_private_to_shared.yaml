@@ -1,0 +1,125 @@
+version: 1.0
+kind: boa_example
+id: example_personal_ai_private_to_shared
+
+title:
+  en: Personal AI hypotheses must be resolved before becoming shared decisions
+  ja: パーソナルAIの仮説は、共有判断になる前に必ず解決（Resolution）される
+
+domain: cross_domain
+
+scenario:
+  description:
+    - An individual uses Personal AI to analyze a situation
+    - The AI produces a convincing conclusion based on private context
+    - The result must not cross into shared or official space without Resolution
+  actors:
+    - individual_user
+    - personal_ai
+    - role_owner
+    - organization
+
+facts:
+  - id: f_context_snapshot_001
+    type: contextual_observation
+    observed_at: "2025-12-25T09:10:00+09:00"
+    provenance:
+      source: "internal_documents + personal_notes"
+      collected_by: "individual_user"
+    payload_ref: "private/context_snapshot.md"
+    invariants:
+      - immutable
+      - append_only
+      - private_scope
+
+meanings:
+  - id: m_personal_ai_hypothesis_001
+    type: hypothesis
+    derived_from: [f_context_snapshot_001]
+    generated_by: personal_ai
+    context:
+      personalization:
+        experience_bias: true
+        preference_history: true
+        private_assumptions: true
+      prompt_ref: "private/prompts/analysis_v3.txt"
+    conclusion:
+      summary: "Option B is likely safer and faster"
+      confidence: "high"
+    status: private_hypothesis
+    notes:
+      - "Based on user's historical preferences"
+      - "Not validated against organizational constraints"
+
+boundaries:
+  - name: private_to_shared
+    description: >
+      Crossing from private reasoning space into shared organizational space
+      requires stripping personal context and declaring responsibility.
+    shifts:
+      meaning: "private hypothesis -> accountable statement"
+      responsibility: "individual -> role_owner"
+      resolution: "r_shared_publish"
+
+resolution:
+  id: r_shared_publish
+  contract:
+    guarantees:
+      - private_context_removed: true
+      - provenance_declared: true
+      - assumptions_explicit: true
+    blocks_promotion_if:
+      - "personalization flags remain"
+      - "responsibility owner not declared"
+      - "rationale not documented"
+
+promotion:
+  from:
+    meaning_id: m_personal_ai_hypothesis_001
+  to:
+    meaning_type: recommendation
+    visibility: shared
+    required_transformation:
+      - "remove preference_history"
+      - "remove experience_bias"
+      - "rewrite conclusion in neutral language"
+      - "list assumptions explicitly"
+
+responsibility:
+  owner: role_owner
+  required_actions:
+    - "Review AI-generated hypothesis"
+    - "Validate against organizational constraints"
+    - "Decide whether to adopt, modify, or reject"
+    - "Sign off decision rationale"
+  forbidden_delegation:
+    - "Personal AI cannot be cited as decision owner"
+    - "Personal AI confidence cannot be used as justification"
+
+ai_usage:
+  allowed:
+    - "Generate private hypotheses"
+    - "Draft alternative options"
+    - "Explain trade-offs"
+  forbidden:
+    - "Publish shared recommendations directly"
+    - "Set organizational direction"
+    - "Bypass Resolution process"
+
+failure_modes:
+  - name: silent_personal_bias
+    symptom: "Shared decision reflects private preference without disclosure"
+    mitigation:
+      - "Explicit stripping of personal context at boundary"
+      - "Resolution checklist enforcement"
+
+  - name: ai_authority_shift
+    symptom: "AI output treated as authoritative decision"
+    mitigation:
+      - "Mandatory human sign-off"
+      - "Decision memo stored as Meaning artifact"
+
+notes:
+  - "Personal AI is a thinking partner, not a decision maker."
+  - "Boundaries protect both the individual and the organization."
+  - "Resolution is the moment where responsibility becomes real."

@@ -1,0 +1,102 @@
+version: 1.0
+kind: boa_example
+id: example_finance_eod_cutoff
+
+title:
+  en: EOD Cutoff promotes intraday estimates to official figures
+  ja: EODカットオフで「推定」から「公式」へ昇格する
+
+domain: finance
+
+scenario:
+  description:
+    - Intraday PnL is estimated and may be incomplete
+    - At EOD, the organization declares official numbers under reconciliation
+  actors:
+    - trading_desk
+    - risk_team
+    - finance_controller
+    - compliance
+
+facts:
+  - id: f_trade_exec_001
+    type: trade_execution_event
+    observed_at: "2025-12-24T14:03:12Z"
+    payload_ref: "trades/2025-12-24/executions.parquet"
+    invariants:
+      - immutable
+      - append_only
+
+  - id: f_market_tick_stream
+    type: market_ticks
+    observed_range: "2025-12-24T00:00:00Z..2025-12-24T23:59:59Z"
+    payload_ref: "market/ticks/2025-12-24/"
+    invariants:
+      - immutable
+      - append_only
+
+meanings:
+  - id: m_intraday_pnl_v1
+    type: pnl_estimate
+    derived_from: [f_trade_exec_001, f_market_tick_stream]
+    context:
+      model: "pnl_calc"
+      model_version: "1.3.0"
+      parameters_ref: "models/pnl_calc/1.3.0/params.json"
+    status: estimate
+    notes:
+      - "May contain known missing fills"
+      - "Timeliness prioritized"
+
+  - id: m_eod_official_pnl_v1
+    type: pnl_official
+    derived_from: [m_intraday_pnl_v1]
+    context:
+      reconciliation_ref: "recon/2025-12-24/report.md"
+      adjustment_facts_ref: "ledger/2025-12-24/adjustments.parquet"
+    status: official
+    notes:
+      - "Completeness prioritized"
+      - "Requires controller sign-off"
+
+boundaries:
+  - name: intraday_to_eod
+    description: "Promote estimated metrics to official metrics at cutoff"
+    boundary_trigger:
+      cutoff_time_local: "2025-12-24T23:59:59+09:00"
+      window_close_policy: "T+0"
+    shifts:
+      meaning: "estimate -> official"
+      responsibility: "analytics/risk -> finance_controller"
+      resolution: "r_eod_official"
+
+resolution:
+  id: r_eod_official
+  contract:
+    guarantees:
+      - completeness_over_timeliness: true
+      - reconciliation_required: true
+      - audit_trail_required: true
+    blocks_promotion_if:
+      - "reconciliation not completed"
+      - "model_version missing"
+      - "material discrepancy unresolved"
+
+responsibility:
+  owner: finance_controller
+  required_actions:
+    - "Review reconciliation report"
+    - "Approve or reject promotion to official"
+    - "Record rationale (decision memo) for exceptions"
+  forbidden_delegation:
+    - "AI cannot approve official promotion"
+    - "AI cannot decide materiality"
+
+ai_usage:
+  allowed:
+    - "Explain discrepancy candidates"
+    - "Suggest reconciliation steps"
+    - "Draft decision memo (human edits and signs)"
+  forbidden:
+    - "Set status=official"
+    - "Override cutoff rules"

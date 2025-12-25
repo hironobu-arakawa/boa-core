@@ -1,0 +1,115 @@
+version: 1.0
+kind: boa_example
+id: example_public_policy_version_boundary
+
+title:
+  en: Policy version boundary changes interpretation without changing Facts
+  ja: 政策バージョン境界で「事実は同じでも意味が変わる」
+
+domain: public_sector
+
+scenario:
+  description:
+    - A citizen case is assessed under a policy that changes mid-year
+    - Facts remain immutable; Meaning changes by declared policy version
+  actors:
+    - case_worker
+    - legal_officer
+    - department_head
+
+facts:
+  - id: f_case_intake_1001
+    type: citizen_request_intake
+    observed_at: "2025-06-10T02:15:00Z"
+    provenance:
+      channel: "web_form"
+      received_by: "service_desk"
+    payload_ref: "cases/1001/intake.json"
+    invariants:
+      - immutable
+      - append_only
+
+  - id: f_income_record_1001
+    type: income_record_snapshot
+    observed_at: "2025-06-10T02:20:00Z"
+    provenance:
+      source_agency: "tax_office"
+    payload_ref: "cases/1001/income_2025Q2.json"
+    invariants:
+      - immutable
+      - append_only
+
+policies:
+  - id: p_2025_h1
+    name: "Benefit Eligibility Policy 2025 H1"
+    effective_range: "2025-01-01..2025-06-30"
+    ref: "policies/eligibility/2025H1.md"
+
+  - id: p_2025_h2
+    name: "Benefit Eligibility Policy 2025 H2"
+    effective_range: "2025-07-01..2025-12-31"
+    ref: "policies/eligibility/2025H2.md"
+
+meanings:
+  - id: m_eligibility_under_h1
+    type: eligibility_judgement
+    derived_from: [f_case_intake_1001, f_income_record_1001]
+    context:
+      policy_id: p_2025_h1
+      policy_effective_date: "2025-01-01"
+      interpretation_notes_ref: "cases/1001/memo_h1.md"
+    outcome: "eligible"
+    status: "operational"
+
+  - id: m_eligibility_under_h2
+    type: eligibility_judgement
+    derived_from: [f_case_intake_1001, f_income_record_1001]
+    context:
+      policy_id: p_2025_h2
+      policy_effective_date: "2025-07-01"
+      interpretation_notes_ref: "cases/1001/memo_h2.md"
+    outcome: "not_eligible"
+    status: "operational"
+
+boundaries:
+  - name: policy_change_boundary
+    description: "Interpretation changes by declared policy version and effective date"
+    boundary_trigger:
+      policy_effective_date: "2025-07-01"
+    shifts:
+      meaning: "policy H1 -> policy H2"
+      responsibility: "policy_owner -> executing_departments"
+      resolution: "r_public_reporting"
+
+resolution:
+  id: r_public_reporting
+  contract:
+    guarantees:
+      - traceable_sources: true
+      - explainable_definitions: true
+      - policy_version_declared: true
+    blocks_promotion_if:
+      - "policy_id missing"
+      - "effective_date missing"
+      - "decision memo missing for adverse decisions"
+
+responsibility:
+  owner: case_worker
+  co_owners:
+    - legal_officer
+  required_actions:
+    - "Select policy version based on effective date"
+    - "Write decision memo linked to Facts"
+    - "Escalate to legal if interpretation is non-standard"
+  forbidden_delegation:
+    - "AI cannot decide eligibility"
+    - "AI cannot generate official public statements without approval"
+
+ai_usage:
+  allowed:
+    - "Summarize case history"
+    - "Generate checklist based on selected policy"
+    - "Draft decision memo (human edits and signs)"
+  forbidden:
+    - "Select policy version"
+    - "Set outcome eligible/not_eligible"
