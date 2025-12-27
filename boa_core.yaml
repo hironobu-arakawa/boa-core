@@ -1,142 +1,187 @@
-version: 1.0
-kind: design_core
-id: vcdesign_core
+version: 1.1
+kind: architecture_core
+id: boundary_oriented_architecture_core
 
 name:
-  short: VCD
-  full: VCDesign
+  short: BOA
+  full: Boundary-Oriented Architecture
 
 tagline:
-  en: Design the place where decisions live, so systems survive change
-  ja: 判断の「置き場所」を設計し、変化の中で壊れない構造を残す
+  en: Separate Fact, Meaning, and Responsibility by declaring boundaries
+  ja: 事実・意味・責務を「境界」で分離するアーキテクチャ
 
 intent:
-  - This file defines the immutable core of VCDesign (VCD)
+  - This file defines the immutable core of BOA
   - It is designed to be read by humans and LLMs
-  - It defines design principles, not implementations
-  - It subsumes construction methods (e.g., BOA) without binding to a domain
+  - It does not prescribe implementation details
+  - It assumes the existence of Personal AI as a first-class actor
 
 ---
 
 philosophy:
-
   premise:
-    - Meaning is not universal; it is bound to context
-    - Systems change; design must assume incompleteness
-    - What cannot be designed should not be fixed
-    - Decisions always have owners; responsibility must remain explicit
-    - Storage is not flow; persistence is a consequence, not a starting point
-
-  anti_goals:
-    - Converting design into a checklist of "best practices"
-    - Treating a single interpretation as globally correct
-    - Freezing operational judgment into systems "because we can"
-    - Optimizing local layers while breaking end-to-end survivability
-    - Hiding responsibility behind tools, documents, or AI
-
----
-
-core_rules:
-  # These are the five irreversible rules distilled from the "mother articles".
-  - id: context_defines_meaning
-    statement:
-      en: Meaning is not universal; the same words diverge across worlds.
-      ja: 同じ言葉でも、属する世界が違えば意味は一致しない。
-
-  - id: outcome_requires_judgment
-    statement:
-      en: Outcomes do not emerge from data; they emerge only when judgment is possible.
-      ja: 成果はデータからは生まれず、判断が成立したときにだけ現れる。
-
-  - id: boundary_limits_carrying_meaning
-    statement:
-      en: A boundary is where meaning can be defined but can no longer be fully carried.
-      ja: 境界とは、意味を最後まで引き受けられなくなる地点である。
-
-  - id: design_for_unavoidable_variation
-    statement:
-      en: Do not fix what cannot be designed; design only structures that survive variation.
-      ja: 設計できないものは固定せず、壊れない構造だけを設計する。
-
-  - id: storage_is_a_result_not_a_start
-    statement:
-      en: Storage is not a design starting point; it is the consequence of a data flow.
-      ja: 保存は設計の起点ではなく、流れの結果である。
-
----
-
-design_targets:
-  # What VCD primarily designs.
-  - decision_placement
-  - boundary_declaration
-  - evolution_survivability
-  - interpretation_isolation
-  - responsibility_explicitness
-
-non_targets:
-  # What VCD intentionally does not prescribe.
-  - product_selection
-  - specific_system_topology
-  - detailed implementation patterns
-  - domain-specific KPIs
-
----
-
-relationship_to_boa:
-  statement:
-    en: BOA is a construction method under VCDesign for separating Fact, Meaning, and Responsibility by boundaries.
-    ja: BOAはVCDesignの下にある工法であり、境界で事実・意味・責務を分離するための実装指針である。
-  invariants_alignment:
     - Fact is immutable
     - Meaning is contextual and revisable
-    - Responsibility remains human-owned
-    - Boundaries prevent silent meaning drift and responsibility leakage
-    - Promotion to shared artifacts requires explicit Resolution
-  reference:
-    - repo: BOA
-      file: boa_core.yaml
+    - Responsibility cannot be automated
+    - Boundaries exist to protect systems from misinterpretation
+    - Personal context is powerful and dangerous
+
+  anti_goals:
+    - Automating human judgment
+    - Hiding responsibility behind systems or AI
+    - Treating AI output as decision
+    - Allowing private context to silently affect shared outcomes
+
+---
+
+core_concepts:
+
+  Fact:
+    definition:
+      - Observed data at a specific time and place
+    properties:
+      - Immutable
+      - Append-only
+      - Context-free
+    non_properties:
+      - No business meaning
+      - No prediction
+      - No correction
+
+  Meaning:
+    definition:
+      - Interpretation applied to Facts
+    properties:
+      - Contextual
+      - Revisable
+      - Multiple meanings may coexist
+    constraints:
+      - Must not overwrite Fact
+      - Must declare its context and basis
+
+  Responsibility:
+    definition:
+      - Accountability for decisions and outcomes
+    properties:
+      - Always human-owned
+      - Explicitly declared
+    constraints:
+      - Cannot be delegated to systems or AI
+      - Must be traceable and auditable
+
+---
+
+boundary:
+
+  declaration:
+    - A boundary is where interpretation changes
+    - A boundary is where responsibility shifts
+    - A boundary is where resolution is fixed
+
+  functions:
+    allows:
+      - Asynchronous processing
+      - Partial failure
+      - Independent evolution
+    prevents:
+      - Silent meaning drift
+      - Responsibility leakage
+      - Implicit coupling
+      - Private bias crossing into shared decisions
+
+---
+
+resolution:
+
+  definition:
+    - The level at which Meaning is stabilized for use
+  properties:
+    - Explicit
+    - Purpose-bound
+    - Time-bound
+    - Auditable
+  notes:
+    - Resolution is not accuracy
+    - Resolution is a contract
+    - Promotion across boundaries requires Resolution
 
 ---
 
 ai_positioning:
-  # Keep consistent with BOA: AI generates hypotheses, never owns responsibility.
-  role:
-    - generate hypotheses
-    - suggest interpretations
-    - detect inconsistencies
-    - enumerate trade-offs
-  forbidden:
-    - making final decisions
-    - owning responsibility
-    - overwriting facts
-    - silently promoting private context into shared artifacts
+
+  general_ai:
+    role:
+      - Generate hypotheses
+      - Suggest interpretations
+      - Detect inconsistencies
+    forbidden:
+      - Making final decisions
+      - Modifying Facts
+      - Owning responsibility
+
+---
+
+personal_ai:
+
+  definition:
+    - A Personal AI is an assistant bound to an individual’s private context
+    - It supports interpretation and thinking, not decision ownership
+
+  invariants:
+    - Personal AI never becomes a Responsibility owner
+    - Personal AI outputs are Hypotheses by default
+    - Personal AI context is not authoritative
+    - Personal AI may be wrong in systematic ways
+
+  context_scope:
+    valid_within:
+      - individual thinking
+      - private analysis
+      - draft reasoning
+    invalid_within:
+      - shared decisions
+      - official records
+      - accountable outcomes
+
+  boundary_rule:
+    - When crossing organizational, legal, or accountability boundaries,
+      Personal AI context must be re-declared or discarded
+    - Only Resolution outputs may be promoted to shared artifacts
+    - Private context must be stripped during promotion
+
   promotion_guard:
     requires:
-      - explicit human responsibility owner
-      - explicit resolution (purpose-bound, time-bound)
+      - explicit Resolution
+      - declared human Responsibility owner
       - auditable rationale
+    forbids:
+      - silent copy-paste of Personal AI conclusions
+      - implicit trust based on personalization
 
 ---
 
 evolution:
+
   allowed_changes:
-    - new examples
-    - clarifications
-    - additional derived patterns (in separate files)
+    - New bindings
+    - New examples
+    - Clarifications
   restricted_changes:
-    - the five core_rules
-    - responsibility must remain explicit and human-owned
+    - Fact / Meaning / Responsibility separation
+    - Boundary and Resolution principles
+    - Human-owned responsibility
   versioning:
-    - breaking changes require new core version
+    - Breaking changes require new core version
 
 ---
 
 scope:
+
   applicable_to:
-    - industrial systems
-    - information systems
-    - socio-technical systems
-    - AI-assisted design and decision environments
+    - Industrial systems
+    - Information systems
+    - Socio-technical systems
+    - AI-assisted decision environments
   not_applicable_to:
-    - fully autonomous decision systems
-    - domains requiring zero ambiguity and zero human judgment
+    - Fully autonomous decision systems
+    - Domains requiring zero ambiguity and zero human judgment
