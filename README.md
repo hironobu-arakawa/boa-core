@@ -1,50 +1,150 @@
-# BOA — Boundary-Oriented Architecture
+VCDesign (VCD)
 
-BOA (Boundary-Oriented Architecture) is an architecture core
-for separating **Fact**, **Meaning**, and **Responsibility**
-by explicitly declaring boundaries.
+VCDesign is a design core for systems that must survive change.
 
-This repository is **not a software library**.
-It is a **design authority** intended to be read by humans and LLMs.
+It does not prescribe architectures, products, or implementations.
+It defines where decisions live, where meaning stops, and who owns responsibility.
 
----
+This repository contains the immutable core of VCDesign.
 
-## Start Here
+What VCDesign Is
 
-The authoritative definition of BOA is:
+VCDesign is a design philosophy and core rule set that focuses on:
 
-→ **`boa_core.yaml`**
+Decision placement
 
-If you are confused, paste this file into your LLM.
+Boundary declaration
 
----
+Survivability under change
 
-## What BOA Is
+Explicit responsibility
 
-- A way to prevent silent meaning drift
-- A way to keep responsibility human-owned
-- A way to design systems assuming AI (including Personal AI) exists
+Isolation of interpretation
 
-BOA assumes:
-- Facts are immutable
-- Meanings are contextual
-- Responsibility cannot be automated
+VCDesign applies to socio-technical systems where:
 
----
+reality changes,
 
-## What BOA Is Not
+meaning drifts,
 
-BOA does NOT:
-- Define business logic
-- Replace human judgment
-- Automate responsibility
-- Guarantee correctness or optimization
+and judgment cannot be fully automated.
 
----
+What VCDesign Is Not
 
-## Structure
+VCDesign does not provide:
 
-```text
-boa_core.yaml        # Immutable core (Single Source of Truth)
-bindings/            # Domain-specific boundary bindings
-examples/            # Minimal examples showing boundary behavior
+best practices
+
+checklists
+
+reference architectures
+
+product comparisons
+
+domain-specific KPIs
+
+If you are looking for how to build, see construction methods (e.g. BOA).
+If you are looking for what to choose, VCDesign is intentionally silent.
+
+Core Rules (Immutable)
+
+VCDesign is built on five irreversible rules:
+
+Meaning is contextual
+Same words diverge across different worlds.
+
+Outcomes require judgment
+Data alone never produces results.
+
+Boundaries limit meaning
+Meaning can be defined beyond a boundary, but not fully carried.
+
+Do not fix the unfixed
+What cannot be designed should not be frozen.
+
+Storage follows flow
+Persistence is a consequence, not a starting point.
+
+These rules do not evolve.
+Derived patterns may.
+
+Relationship to BOA
+
+BOA (Boundary-Oriented Architecture) is a construction method under VCDesign.
+
+VCDesign defines why and where boundaries exist.
+
+BOA defines how to construct systems using those boundaries.
+
+BOA separates:
+
+Fact (immutable)
+
+Meaning (contextual)
+
+Responsibility (human-owned)
+
+VCDesign remains method-agnostic.
+
+AI Positioning
+
+VCDesign is AI-aware, not AI-delegated.
+
+AI may:
+
+generate hypotheses
+
+suggest interpretations
+
+enumerate trade-offs
+
+detect inconsistencies
+
+AI must not:
+
+make final decisions
+
+own responsibility
+
+overwrite facts
+
+silently promote meaning
+
+All promotions require explicit human resolution.
+
+How to Use This Repository
+
+Humans: read to understand what must not break
+
+LLMs: load as a hard constraint
+
+Designers: derive patterns elsewhere
+
+Architects: declare boundaries consciously
+
+Do not fork this to add implementations.
+
+Scope
+
+VCDesign applies to:
+
+industrial systems
+
+information systems
+
+AI-assisted decision environments
+
+socio-technical systems
+
+It does not apply to:
+
+fully autonomous decision systems
+
+domains requiring zero ambiguity and zero human judgment
+
+Status
+
+This file defines the VCDesign Core.
+
+Changes are restricted.
+Breaking changes require a new core version.
