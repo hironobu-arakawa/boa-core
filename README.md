@@ -1,104 +1,93 @@
-VCDesign (VCD)
+BOA (Boundary-Oriented Architecture)
 
-VCDesign is a design core for systems that must survive change.
+BOA is a construction method for systems that must respect boundary decisions over time.
 
-It does not prescribe architectures, products, or implementations.
-It defines where decisions live, where meaning stops, and who owns responsibility.
+BOA (Boundary-Oriented Architecture) is used after architectural judgments have been made.
+It translates those judgments into system structures without collapsing meaning, responsibility, or human judgment.
 
-This repository contains the immutable core of VCDesign.
+BOA does not decide what should be built.
+It defines how to build without breaking the decisions already made.
 
-What VCDesign Is
+Positioning
 
-VCDesign is a design philosophy and core rule set that focuses on:
+BOA sits between decision and implementation.
 
-Decision placement
+VCDesign defines where judgment belongs and what must not be fixed
 
-Boundary declaration
+BOA defines how to construct systems that preserve those boundaries
 
-Survivability under change
+BOA is therefore methodological, not philosophical.
 
-Explicit responsibility
+What BOA Is
 
-Isolation of interpretation
+BOA is a construction method that focuses on:
 
-VCDesign applies to socio-technical systems where:
+Boundary-preserving system structures
 
-reality changes,
+Separation of Fact, Meaning, and Responsibility
 
-meaning drifts,
+Survivability under operational change
 
-and judgment cannot be fully automated.
+Explicit ownership of judgment
 
-What VCDesign Is Not
+Safe integration of automation and AI
 
-VCDesign does not provide:
+BOA applies to systems where:
+
+operation continues after deployment
+
+responsibility must remain traceable
+
+meaning may drift over time
+
+automation must not silently absorb judgment
+
+What BOA Is Not
+
+BOA does not provide:
+
+reference implementations
+
+technology stacks
+
+templates or blueprints
 
 best practices
 
-checklists
+product recommendations
 
-reference architectures
+BOA does not optimize for speed or convenience.
+It optimizes for long-term correctness under change.
 
-product comparisons
+Core Separation
 
-domain-specific KPIs
+BOA enforces a strict separation between:
 
-If you are looking for how to build, see construction methods (e.g. BOA).
-If you are looking for what to choose, VCDesign is intentionally silent.
+Fact
+Immutable observations and records
 
-Core Rules (Immutable)
+Meaning
+Contextual interpretation that may change
 
-VCDesign is built on five irreversible rules:
+Responsibility
+Human-owned judgment and consequence
 
-Meaning is contextual
-Same words diverge across different worlds.
-
-Outcomes require judgment
-Data alone never produces results.
-
-Boundaries limit meaning
-Meaning can be defined beyond a boundary, but not fully carried.
-
-Do not fix the unfixed
-What cannot be designed should not be frozen.
-
-Storage follows flow
-Persistence is a consequence, not a starting point.
-
-These rules do not evolve.
-Derived patterns may.
-
-Relationship to BOA
-
-BOA (Boundary-Oriented Architecture) is a construction method under VCDesign.
-
-VCDesign defines why and where boundaries exist.
-
-BOA defines how to construct systems using those boundaries.
-
-BOA separates:
-
-Fact (immutable)
-
-Meaning (contextual)
-
-Responsibility (human-owned)
-
-VCDesign remains method-agnostic.
+These elements may interact,
+but must not collapse into each other.
 
 AI Positioning
 
-VCDesign is AI-aware, not AI-delegated.
+BOA is AI-compatible, not AI-driven.
 
 AI may:
 
+propose interpretations
+
 generate hypotheses
 
-suggest interpretations
+surface inconsistencies
 
 enumerate trade-offs
-
-detect inconsistencies
 
 AI must not:
 
@@ -112,39 +101,64 @@ silently promote meaning
 
 All promotions require explicit human resolution.
 
-How to Use This Repository
+When to Use BOA
 
-Humans: read to understand what must not break
+BOA is used when:
 
-LLMs: load as a hard constraint
+implementing architectures derived from VCDesign
 
-Designers: derive patterns elsewhere
+translating boundary decisions into system structure
 
-Architects: declare boundaries consciously
+introducing automation or AI into operational systems
 
-Do not fork this to add implementations.
+building systems that must remain explainable over time
 
-Scope
+BOA is often recognized after failure:
 
-VCDesign applies to:
+when responsibilities become unclear
 
-industrial systems
+when meaning drifts across teams
 
-information systems
+when systems become brittle under change
 
-AI-assisted decision environments
+In such cases, BOA helps reconstruct where boundaries collapsed.
 
-socio-technical systems
+Relationship to VCDesign
 
-It does not apply to:
+VCDesign and BOA are intentionally separated.
 
-fully autonomous decision systems
+VCDesign
+Determines what must be decided and where judgment belongs
 
-domains requiring zero ambiguity and zero human judgment
+BOA
+Determines how to construct systems that honor those decisions
 
-Status
+BOA does not override VCDesign.
+It operationalizes it.
 
-This file defines the VCDesign Core.
+Repository Scope
 
-Changes are restricted.
-Breaking changes require a new core version.
+This repository contains:
+
+BOA structural principles
+
+boundary-preserving construction rules
+
+patterns derived from VCDesign judgments
+
+It does not contain implementations.
+
+Final Note
+
+If you are looking for:
+
+what technology to choose
+
+how to optimize performance
+
+how to automate decisions
+
+BOA is not the right tool.
+
+If you are trying to ensure that decisions remain valid after systems change,
+BOA is designed for that purpose.
