@@ -111,7 +111,7 @@ BOAは **IDG (Interface Determinability Gate)** パターンを強制する：
 
 IDGにおける沈黙は失敗ではない。それは **境界を維持する正常な結果** である。
 
-([参照: interface-determinability-gate](https://github.com/hironobu-arakawa/interface-determinability-gate))
+([参照: BOA_IDG_DEFINITION.yaml](./BOA_IDG_DEFINITION.yaml))
 
 ---
 
@@ -129,7 +129,7 @@ IDGにおける沈黙は失敗ではない。それは **境界を維持する�
 自動化システムは *解釈 (Interpretation)* を提案することはできるが、
 RPを通過することなく、それを *解決 (Resolution)* へと自動昇格させてはならない。
 
-([参照: vcdesign-core / RP](https://github.com/hironobu-arakawa/vcdesign-core))
+([参照: BOA_RP_DEFINITION.yaml](./BOA_RP_DEFINITION.yaml))
 
 ---
 

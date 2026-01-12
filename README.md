@@ -113,7 +113,7 @@ BOA enforces the **IDG (Interface Determinability Gate)** pattern:
 
 Silence in IDG is not a failure. It is a **boundary-preserving outcome**.
 
-([Reference: interface-determinability-gate](https://github.com/hironobu-arakawa/interface-determinability-gate))
+([Reference: BOA_IDG_DEFINITION.yaml](./BOA_IDG_DEFINITION.yaml))
 
 ---
 
@@ -131,7 +131,7 @@ It requires:
 Automated systems may propose *Interpretation*,
 but they must never auto-upgrade it to *Resolution* without passing RP.
 
-([Reference: vcdesign-core / RP](https://github.com/hironobu-arakawa/vcdesign-core))
+([Reference: BOA_RP_DEFINITION.yaml](./BOA_RP_DEFINITION.yaml))
 
 ---
 
