@@ -1,0 +1,50 @@
+version: 2.0
+kind: boa_binding
+id: boa_binding_legal
+
+name:
+  en: Legal Binding
+  ja: 法務バインディング
+
+description:
+  en: >
+    Binding for legal workflows that treats Documents as Facts and Opinions as Hypotheses,
+    requiring Citation and Human validation for legal advice.
+  ja: >
+    文書をFact、見解をHypothesisとして扱い、法的アドバイスには
+    引用と人間による検証を要求する法務ワークフロー向けバインディング。
+
+philosophy_grounding:
+  vcd_core_version: ">=2.0.0"
+  axioms:
+    - "facts_are_immutable"
+    - "interpretation_is_versioned"
+
+depends_on:
+  - id: boa_binding_analytics_llm
+    relation: "extends"
+
+domain_axioms:
+  - id: text_is_fact
+    statement: "Signed Contracts and Statutes are Facts. Their meaning is Interpretation."
+  - id: citation_traceability
+    statement: "Legal validity relies on provenance (Citation)."
+
+constraints:
+  fact_boundary:
+    - id: documentary_evidence
+      rule: "Only traceable, verifiably cited text counts as Evidence for Resolution."
+  
+  responsibility_boundary:
+    - id: counsel_opinion
+      rule: "Final legal opinion/advice requires a Named Human (Counsel) Resolution."
+      rationale: "Aligns with VCD Core: Legal liability resides with the practitioner, not the tool."
+
+responsibility_model:
+  roles:
+    - id: llm_paralegal
+      nature: "search / summarization / drafting (Hypothesis)"
+    - id: legal_counsel
+      nature: "Legal Opinion Owner (Resolution)"
+
+# NOTE: Jurisdiction checks and versioning logic are delegated to IDG/BOA.

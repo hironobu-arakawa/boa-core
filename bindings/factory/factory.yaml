@@ -1,0 +1,48 @@
+version: 2.0
+kind: boa_binding
+id: boa_binding_factory
+
+name:
+  en: Factory (OT/IT) Binding
+  ja: 工場 (OT/IT) バインディング
+
+description:
+  en: >
+    Binding for physical systems that treats OT/Edge data as authoritative Facts,
+    and requires explicit boundaries when IT/AI attempts to control OT.
+  ja: >
+    OT/Edgeデータを権威あるFactとして扱い、IT/AIがOTを制御しようとする際に
+    明示的な境界を要求する物理システム向けバインディング。
+
+philosophy_grounding:
+  vcd_core_version: ">=2.0.0"
+  axioms:
+    - "facts_are_immutable"
+    - "boundaries_must_be_declared"
+
+domain_axioms:
+  - id: physical_reality_is_primary
+    statement: "Sensor values (OT) represent physical reality (Fact) and cannot be overwritten by IT models."
+  - id: safety_boundary
+    statement: "Control signals from IT/AI (Interpretation) to OT (Action) must cross a Safety Boundary."
+
+constraints:
+  fact_boundary:
+    - id: ot_fact_authority
+      rule: "Facts originate in OT/Edge. IT cannot mutate them, only interpret them."
+  
+  responsibility_boundary:
+    - id: control_gate
+      rule: "Automated actuation requires pre-verified Safety Contracts or Human Resolution."
+      rationale: "Aligns with VCD Core: AI cannot be responsible for physical damage."
+
+responsibility_model:
+  roles:
+    - id: ot_system
+      nature: "Generator of Physical Fact / Executor of Action"
+    - id: it_ai_system
+      nature: "Generator of Interpretation / Suggestion"
+    - id: factory_manager
+      nature: "Responsible Owner for safety thresholds and override decisions"
+
+# NOTE: Specific SLOs and connection protocols are delegated to IDG/BOA.

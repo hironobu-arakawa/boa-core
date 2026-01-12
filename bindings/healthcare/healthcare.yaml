@@ -1,0 +1,51 @@
+version: 2.0
+kind: boa_binding
+id: boa_binding_healthcare
+
+name:
+  en: Healthcare Binding
+  ja: 医療バインディング
+
+description:
+  en: >
+    Binding for clinical environments that treats Records as Facts, Diagnoses as Hypotheses,
+    and mandates Human Clinician Responsibility for patient care.
+  ja: >
+    記録をFact、診断をHypothesisとして扱い、患者ケアに対する
+    人間(臨床医)の責任を義務付ける医療環境向けバインディング。
+
+philosophy_grounding:
+  vcd_core_version: ">=2.0.0"
+  axioms:
+    - "responsibility_non_transferable"
+    - "interpretation_is_provisional"
+
+depends_on:
+  - id: boa_binding_analytics_llm
+    relation: "extends"
+
+domain_axioms:
+  - id: clinical_responsibility
+    statement: "Only a Human Clinician can hold Responsibility for patient outcomes."
+  - id: safety_first
+    statement: "In ambiguity, the system must default to 'Do No Harm' (Safe Fail)."
+
+constraints:
+  interpretation_boundary:
+    - id: diagnosis_as_hypothesis
+      rule: "AI generated diagnosis/treatment plans are strictly Hypothesis."
+      forbidden: "Auto-finalizing prescriptions or orders."
+
+  responsibility_boundary:
+    - id: clinical_signoff
+      rule: "Patient-impacting actions require Clinician Resolution (Sign-off)."
+      rationale: "Aligns with VCD Core: Accountability cannot be delegated to algorithms."
+
+responsibility_model:
+  roles:
+    - id: llm_assistant
+      nature: "Medical Scribe / Analysis Assistant (Hypothesis)"
+    - id: clinician
+      nature: "Licensed Responsible Actor (Resolution)"
+
+# NOTE: Privacy (HIPAA/GDPR) compliance details are delegated to IDG/BOA context.
