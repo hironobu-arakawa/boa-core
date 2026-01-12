@@ -1,0 +1,71 @@
+version: 1.0
+kind: boa_example
+id: example_legal_contract_review
+
+title:
+  en: Legal advice requires citation and Counsel Sign-off
+  ja: 法的アドバイスは引用と弁護士の承認を必要とする
+
+domain: legal
+binding_ref: boa_binding_legal
+
+scenario:
+  description:
+    - Contract draft is ingested as Fact
+    - AI analyzes for liabilities (Hypothesis)
+    - Legal Counsel reviews and approves advice (Resolution)
+  actors:
+    - client_company
+    - ai_paralegal
+    - legal_counsel
+
+facts:
+  - id: f_contract_draft_v1
+    type: document_record
+    ingested_at: "2026-03-01T14:00:00+09:00"
+    provenance:
+      source: "email_attachment"
+      checksum: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    payload_ref: "docs/contracts/draft_service_agreement_v1.pdf"
+    invariants:
+      - immutable
+      - text_is_fact
+
+meanings:
+  - id: m_risk_analysis_001
+    type: hypothesis
+    derived_from: [f_contract_draft_v1]
+    generated_by: ai_paralegal
+    content:
+      risk_flag: "Indemnification Clause is unlimited"
+      severity: "High"
+      suggestion: "Cap liability to 12 months fees."
+      citation: "Page 12, Clause 8.2"
+    status: draft_opinion
+
+boundaries:
+  - name: opinion_boundary
+    description: >
+      AI analysis becomes Legal Opinion only after Counsel review.
+    shifts:
+      meaning: "draft_opinion -> legal_advice"
+      responsibility: "assistant -> counsel"
+      resolution: "r_counsel_approval"
+
+resolution:
+  id: r_counsel_approval
+  protocol: rp
+  owner: legal_counsel
+  contract:
+    guarantees:
+      - citations_verified: true
+      - strategy_aligned: true
+    blocks_promotion_if:
+      - "hallucinated_citation_detected"
+  outcome:
+    decision: "Approve with comment"
+    advice: "Renegotiate Clause 8.2 to cap at $1M."
+
+responsibility:
+  owner: legal_counsel
+  statement: "I have reviewed the draft and AI notes. This advice is my professional opinion."

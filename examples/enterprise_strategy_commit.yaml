@@ -1,0 +1,67 @@
+version: 1.0
+kind: boa_example
+id: example_enterprise_strategy_commit
+
+title:
+  en: Market analysis is Hypothesis; Strategy is Commitment
+  ja: 市場分析は仮説であり、戦略はコミットメント（約束）である
+
+domain: enterprise_decision
+binding_ref: boa_binding_enterprise_decision
+
+scenario:
+  description:
+    - Market data shows opportunity (Fact)
+    - AI proposes market entry strategy (Hypothesis)
+    - Executive Board votes to commit resources (Resolution)
+  actors:
+    - market_data_provider
+    - strategy_llm
+    - executive_board
+
+facts:
+  - id: f_market_report_q1
+    type: external_report
+    published_at: "2026-01-15"
+    provenance: "Gartner_Market_Analysis_2025"
+    payload:
+      growth_rate: "15% YoY"
+      competitor_gap: "High"
+    invariants:
+      - data_is_neutral
+
+meanings:
+  - id: m_strategy_option_b
+    type: hypothesis
+    derived_from: [f_market_report_q1]
+    generated_by: strategy_llm
+    content:
+      option: "Project Alpha: 30% budget allocation to Asia Pacific"
+      rationale: "Aligns with growth hotspots."
+      risk_factors: ["Regulatory Compliance", "Currency Fluctuation"]
+    status: proposal
+
+boundaries:
+  - name: commitment_boundary
+    description: >
+      Analytical proposals become Strategy only when resources are committed by authority.
+    shifts:
+      meaning: "proposal -> strategic_plan"
+      responsibility: "staff_analysis -> executive_commitment"
+      resolution: "r_board_vote"
+
+resolution:
+  id: r_board_vote
+  protocol: rp
+  owner: executive_board
+  contract:
+    guarantees:
+      - risks_accepted: true
+      - budget_authorized: true
+  outcome:
+    decision: "ADOPT_OPTION_B"
+    commitment_id: "STRAT-2026-003"
+
+responsibility:
+  owner: executive_board
+  statement: "We accept the risks outlined in Option B and authorize the budget."

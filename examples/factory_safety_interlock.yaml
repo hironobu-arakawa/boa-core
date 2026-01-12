@@ -1,0 +1,70 @@
+version: 1.0
+kind: boa_example
+id: example_factory_safety_interlock
+
+title:
+  en: AI control signals must pass Safety Interlock
+  ja: AI制御信号は安全インターロックを通過しなければならない
+
+domain: factory
+binding_ref: boa_binding_factory
+
+scenario:
+  description:
+    - Vibration sensor detects anomaly (Fact)
+    - AI predicts bearing failure and requests Line Stop (Hypothesis)
+    - Safety Interlock validates the request against operational constraints (Resolution)
+  actors:
+    - vibration_sensor_iot
+    - predictive_maintenance_ai
+    - safety_interlock_system
+    - factory_line_plc
+
+facts:
+  - id: f_vibration_001
+    type: iot_sensor_data
+    timestamp: "2026-04-10T08:30:00+09:00"
+    provenance: "sensor_bearing_4_axis_z"
+    payload:
+      rms_velocity: 12.5 # mm/s (High)
+    invariants:
+      - physical_truth
+      - real_time
+
+meanings:
+  - id: m_failure_prediction_001
+    type: hypothesis
+    derived_from: [f_vibration_001]
+    generated_by: predictive_maintenance_ai
+    content:
+      prediction: "Bearing failure imminent (< 4 hrs)"
+      recommended_action: "EMERGENCY_STOP_LINE_4"
+      confidence: 0.98
+    status: control_proposal
+
+boundaries:
+  - name: safety_boundary
+    description: >
+      IT/Cloud commands cannot directly drive OT PLCs without crossing a Safety Boundary.
+    shifts:
+      meaning: "control_proposal -> safe_actuation_command"
+      responsibility: "algorithm -> safety_controller"
+      resolution: "r_safety_interlock"
+
+resolution:
+  id: r_safety_interlock
+  protocol: rp_automated # Automated RP allowed for safety stops
+  owner: safety_interlock_system
+  contract:
+    guarantees:
+      - safe_to_stop: true
+      - no_human_in_hazard_zone: true
+    blocks_promotion_if:
+      - "cool_down_cycle_parameter_invalid"
+  outcome:
+    decision: "EXECUTE_STOP"
+    signal: "PLC_HALT_CMD"
+
+responsibility:
+  owner: safety_interlock_system
+  statement: "Interlock logic validated safety constraints. Executing stop to prevent damage."

@@ -1,0 +1,67 @@
+version: 1.0
+kind: boa_example
+id: example_analytics_incident_report
+
+title:
+  en: Anomalies are Candidates until confirmed by SRE
+  ja: 異常はSREによって確認されるまでは「候補」に過ぎない
+
+domain: analytics_llm
+binding_ref: boa_binding_analytics_llm
+
+scenario:
+  description:
+    - Logs show error spikes (Fact)
+    - AI identifies potential root cause (Hypothesis)
+    - SRE On-call verifies and declares Incident (Resolution)
+  actors:
+    - log_aggregator
+    - ops_copilot
+    - sre_oncall
+
+facts:
+  - id: f_log_spike_001
+    type: system_metric
+    timestamp: "2026-05-20T14:05:00+00:00"
+    provenance: "prometheus_alert_manager"
+    payload:
+      error_rate: "5.2%"
+      latency_p99: "1200ms"
+    invariants:
+      - observational_truth
+
+meanings:
+  - id: m_root_cause_candidate_001
+    type: hypothesis
+    derived_from: [f_log_spike_001]
+    generated_by: ops_copilot
+    content:
+      suspected_cause: "Database Connection Pool Exhaustion"
+      correlated_event: "Deployment #4421"
+      confidence: "medium"
+    status: candidate_diagnosis
+
+boundaries:
+  - name: incident_declaration
+    description: >
+      Candidates become Official Incidents only upon human confirmation.
+    shifts:
+      meaning: "candidate -> active_incident"
+      responsibility: "observer -> responder"
+      resolution: "r_confirm_incident"
+
+resolution:
+  id: r_confirm_incident
+  protocol: rp
+  owner: sre_oncall
+  contract:
+    guarantees:
+      - existence_verified: true
+      - paging_triggered: true
+  outcome:
+    decision: "DECLARE_MAJOR_INCIDENT"
+    incident_id: "INC-9901"
+
+responsibility:
+  owner: sre_oncall
+  statement: "I have confirmed the DB pool issue. Initiating rollback."

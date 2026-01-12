@@ -1,0 +1,80 @@
+version: 1.0
+kind: boa_example
+id: example_healthcare_triage
+
+title:
+  en: AI-assisted Triage must be signed off by a Nurse
+  ja: AI支援によるトリアージは看護師の署名（承認）を必要とする
+
+domain: healthcare
+binding_ref: boa_binding_healthcare
+
+scenario:
+  description:
+    - Patient arrives at ER with symptoms
+    - Vitals are recorded as immutable Facts
+    - AI suggests triage level (Hypothesis)
+    - Triage Nurse reviews and finalizes the level (Resolution)
+  actors:
+    - patient
+    - medical_device
+    - ai_triage_assistant
+    - triage_nurse
+
+facts:
+  - id: f_vitals_001
+    type: clinical_observation
+    observed_at: "2026-02-15T10:00:00+09:00"
+    provenance:
+      source: "bedside_monitor_v2"
+      device_id: "DEV-7781"
+    payload:
+      heart_rate: 110
+      bp_systolic: 145
+      temp_c: 38.5
+      complaint: "chest_pain"
+    invariants:
+      - immutable
+      - source_authority
+
+meanings:
+  - id: m_triage_hypothesis_001
+    type: hypothesis
+    derived_from: [f_vitals_001]
+    generated_by: ai_triage_assistant
+    content:
+      triage_level_candidate: "Level 2 (Emergency)"
+      reasoning: "Combination of tachycardia, hypertension, and chest pain indicates possible ACS."
+      confidence: "high"
+      citations: ["Hospital Protocol T-22", "AHA Guidelines 2025"]
+    status: private_hypothesis
+    notes:
+      - "This is a suggestion, not a decision."
+
+boundaries:
+  - name: hypothesis_to_decision
+    description: >
+      AI suggestion crosses into patient record only after clinical validation.
+    shifts:
+      meaning: "hypothesis -> clinical_order"
+      responsibility: "system -> licensed_clinician"
+      resolution: "r_triage_decision"
+
+resolution:
+  id: r_triage_decision
+  protocol: rp
+  owner: triage_nurse
+  contract:
+    guarantees:
+      - evidence_reviewed: true
+      - visual_confirmation: true
+    blocks_promotion_if:
+      - "nurse_override_flag is pending"
+      - "missing vital signs"
+  outcome:
+    decision: "Level 2"
+    action: "Move to acute care zone"
+
+responsibility:
+  owner: triage_nurse
+  statement: "I have verified the vitals and patient condition and accept this triage level."
