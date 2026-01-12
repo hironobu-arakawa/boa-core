@@ -97,38 +97,41 @@ All promotions require **explicit human resolution**.
 
 ---
 
-## Deferral Is a Valid Outcome (IDK)
+## IDG: Determinability Guardrail
 
-In BOA, **“not deciding” is a valid and required state**.
+In BOA, capability does not imply determinability.
+Just because a system *can* infer a state does not mean it *should*.
 
-When bounded Meaning cannot be produced safely,
-the system **must defer instead of guessing**.
+BOA enforces the **IDG (Interface Determinability Gate)** pattern:
 
-- Deferral is **not an error**
-- Deferral is **not a failure**
-- Deferral is the **normal handoff** from automation to human responsibility
+- **Determinability over Capability**:
+  If a state cannot be deterministically asserted from the interface or certified sensing,
+  AI must not infer or assume it.
+- **Explicit Detachment**:
+  In such cases, the system must **detach** from decision support.
+  "Likely", "Probably", or "Usually" are explicitly disallowed.
 
-This deferred state should be **represented explicitly**, not filled with defaults.
+Silence in IDG is not a failure. It is a **boundary-preserving outcome**.
 
-UI or interaction layers may visualize this state
-(e.g. an “I Don’t Know” signal),
-but BOA itself remains UI-agnostic.
+([Reference: interface-determinability-gate](https://github.com/hironobu-arakawa/interface-determinability-gate))
 
 ---
 
-## Resolution
+## RP: Resolution Protocol
 
-Meaning may only be promoted when:
+**Meaning** may only be promoted to **Resolution** (Judgment) through the **RP (Resolution Protocol)**.
 
-- a responsible human actor is identified
-- the act of judgment is explicit
-- the consequence is owned
+Resolution is not a meaningful calculation; it is a **structural interlock**.
+It requires:
 
-Resolution is not a computation.
-It is a **human act recorded by the system**.
+- **Structural Check**: Does this promotion pass the pre-decision interlock?
+- **Responsible Actor**: Is a human explicitly accepting ownership?
+- **Recorded Act**: Is the act of judgment traceable?
 
-BOA ensures that systems do not bypass this step,
-even under automation pressure.
+Automated systems may propose *Interpretation*,
+but they must never auto-upgrade it to *Resolution* without passing RP.
+
+([Reference: vcdesign-core / RP](https://github.com/hironobu-arakawa/vcdesign-core))
 
 ---
 

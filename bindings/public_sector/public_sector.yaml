@@ -82,7 +82,7 @@ resolution_contracts:
       - "traceable_sources": true
       - "explainable_definitions": true
     requires_human_judgment:
-      - "department sign-off"
+      - "department sign-off (RP owner)"
       - "disclosure risk assessment"
 
 ai_positioning:
@@ -94,6 +94,10 @@ ai_positioning:
     - decide eligibility
     - decide enforcement actions
     - generate official statements without approval
+
+  idg_constraints:
+    - "If policy applicability is ambiguous, AI must detach"
+    - "No inference of 'intent' from incomplete records"
 
 failure_modes:
   - name: policy_version_confusion

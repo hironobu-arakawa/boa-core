@@ -83,6 +83,7 @@ boundaries:
 
 resolution:
   id: r_public_reporting
+  protocol: rp
   contract:
     guarantees:
       - traceable_sources: true
@@ -113,3 +114,5 @@ ai_usage:
   forbidden:
     - "Select policy version"
     - "Set outcome eligible/not_eligible"
+  idg_check:
+    - "Is policy version unambiguous? If No -> Detach"

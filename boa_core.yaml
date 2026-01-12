@@ -69,6 +69,16 @@ core_concepts:
       - Cannot be delegated to systems or AI
       - Must be traceable and auditable
 
+  Protocols:
+    IDG:
+      name: Interface Determinability Gate
+      role: Input Guardrail
+      rule: Detach if not deterministic
+    RP:
+      name: Resolution Protocol
+      role: Output Interlock
+      rule: No promotion to Resolution without structural check
+
 ---
 
 boundary:
@@ -91,23 +101,36 @@ boundary:
 
 ---
 
-resolution:
+  resolution:
 
   definition:
     - The level at which Meaning is stabilized for use
+    - The outcome of the Resolution Protocol (RP)
   properties:
     - Explicit
     - Purpose-bound
     - Time-bound
     - Auditable
+    - Interlocked (must pass RP)
   notes:
     - Resolution is not accuracy
     - Resolution is a contract
     - Promotion across boundaries requires Resolution
+    - RP is the structural gate for this promotion
 
 ---
 
 ai_positioning:
+
+  determinability_gate:
+    principle:
+      - Capability does not imply Determinability
+      - If state cannot be asserted deterministically, AI must detach
+    rule:
+      - AI must not infer or assume non-deterministic states
+      - "Likely" or "Probably" are prohibited in decision support
+    reference:
+      - IDG (Interface Determinability Gate)
 
   general_ai:
     role:
@@ -118,6 +141,7 @@ ai_positioning:
       - Making final decisions
       - Modifying Facts
       - Owning responsibility
+      - Bypassing IDG or RP
 
 ---
 

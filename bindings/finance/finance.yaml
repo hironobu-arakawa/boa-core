@@ -56,7 +56,7 @@ boundaries:
     shifts:
       meaning: "estimated -> official"
       responsibility: "analytics -> finance controller"
-      resolution: "EOD cutoff + data completeness rules"
+      resolution: "EOD cutoff + data completeness rules (RP interlock)"
 
   - name: internal_to_regulatory
     description: Internal metrics become externally reportable figures
@@ -93,6 +93,10 @@ ai_positioning:
     - finalize official numbers
     - decide materiality
     - override cutoff rules
+
+  idg_constraints:
+    - "If market data is missing, AI must not infer prices (Detach)"
+    - "AI confidence scores cannot substitute for Reconciliation"
 
 failure_modes:
   - name: silent_model_drift

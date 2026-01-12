@@ -63,6 +63,7 @@ boundaries:
 
 resolution:
   id: r_shared_publish
+  protocol: rp
   contract:
     guarantees:
       - private_context_removed: true
@@ -101,6 +102,9 @@ ai_usage:
     - "Generate private hypotheses"
     - "Draft alternative options"
     - "Explain trade-offs"
+  idg_check:
+    - "Is context purely private? If Yes -> Allowed in private scope"
+    - "Is inference deterministic? If No -> Detach from shared decision"
   forbidden:
     - "Publish shared recommendations directly"
     - "Set organizational direction"
