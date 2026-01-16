@@ -1,65 +1,63 @@
 # BOA (Boundary-Oriented Architecture)
 
-**BOA (Boundary-Oriented Architecture)** is a construction method for systems that must
-preserve **boundary decisions over time**.
+**BOA (Boundary-Oriented Architecture)** is a construction method for systems that **must sustain boundary-related decisions over the long term**.
 
-BOA is applied **after architectural judgments have already been made**.
-It translates those judgments into system structures **without collapsing meaning,
-responsibility, or human judgment**.
+BOA is applied **after architectural decisions have already been made**.
+It transforms those decisions into system structure **without collapsing meaning (Meaning), responsibility (Responsibility), or human judgment (Judgment)**.
 
-BOA does not decide *what* should be built.  
-It defines *how* to build **without breaking the decisions already made**.
+BOA does not decide "what should be built".
+BOA defines "how to build" **without destroying decisions already made**.
 
 ---
 
-## Positioning
+## Position
 
-BOA sits **between decision and implementation**.
+BOA is positioned **between Decision and Implementation**.
 
-- **VCDesign** defines *where judgment belongs* and *what must not be fixed*
-- **BOA** defines *how to construct systems that preserve those boundaries*
+- **VCDesign** defines *where judgment belongs*, and *what must not be fixed*
+- **BOA** defines *how to build systems that maintain those boundaries*
 
-BOA is therefore **methodological**, not philosophical.
+Therefore, BOA is not philosophical but **methodological**.
 
 ---
 
-## What BOA Is
+## What is BOA
 
-BOA is a construction method that focuses on:
+BOA is a construction method focused on:
 
-- Boundary-preserving system structures
-- Explicit separation of **Fact**, **Meaning**, and **Responsibility**
-- Survivability under operational and organizational change
-- Traceable ownership of judgment
+- System structure that maintains boundaries
+- **Explicit separation** of fact (Fact), meaning (Meaning), and responsibility (Responsibility)
+- Viability under operational and organizational change
+- Traceability of judgment ownership
 - Safe integration of automation and AI
 
-BOA applies to systems where:
+BOA is applied to systems where:
 
-- operation continues long after deployment
-- responsibility must remain auditable
-- meaning may drift over time
-- automation must not silently absorb judgment
+- Operations continue long after deployment
+- Responsibility must be auditable
+- Meaning may drift (drift) over time
+- Automation must not inadvertently absorb judgment
 
 ---
 
-## What BOA Is Not
+## What BOA is NOT
 
 BOA does **not** provide:
 
-- reference implementations
-- technology stacks
-- templates or blueprints
-- best practices
-- product recommendations
+- Reference implementations
+- Technology stacks
+- Templates or blueprints
+- Best practices
+- Product recommendations
 
-BOA does not optimize for speed or convenience.  
-It optimizes for **long-term correctness under change**.
+BOA does not optimize for speed or convenience.
+BOA optimizes for **long-term correctness under change**.
 
 ---
 
 ## Core Separation
 
-BOA enforces a strict separation between:
+BOA enforces three strict separations:
 
 ### Fact
 Immutable observations and records.
@@ -68,70 +66,96 @@ Immutable observations and records.
 Contextual interpretation that may change over time.
 
 ### Responsibility
-Human-owned judgment and consequence.
+Human-owned judgment and its consequences.
 
-These elements may interact,  
-but **must not collapse into each other**.
+These elements may interact,
+but **must not collapse (conflate) with each other**.
 
 ---
 
-## AI Positioning
+## Positioning of AI
 
 BOA is **AI-compatible**, not AI-driven.
 
-AI **may**:
+AI **can**:
 
-- propose interpretations
-- generate hypotheses
-- surface inconsistencies
-- enumerate trade-offs
+- Propose interpretations
+- Generate hypotheses
+- Surface inconsistencies
+- Enumerate tradeoffs
 
 AI **must not**:
 
-- make final decisions
-- own responsibility
-- overwrite facts
-- silently promote meaning into responsibility
+- Make final decisions
+- Own responsibility
+- Overwrite facts
+- Quietly escalate meaning to responsibility
 
-All promotions require **explicit human resolution**.
+All escalations require **explicit human resolution**.
 
 ---
 
-## IDG: Determinability Guardrail
+### IDG: Interface Determinability Gate
 
-In BOA, capability does not imply determinability.
-Just because a system *can* infer a state does not mean it *should*.
+In BOA,  
+**capability (Capability) does not mean determinability (Determinability).**
 
-BOA enforces the **IDG (Interface Determinability Gate)** pattern:
+Just because a system can infer a state does not mean  
+it is permissible to use it in judgment.
 
-- **Determinability over Capability**:
-  If a state cannot be deterministically asserted from the interface or certified sensing,
+BOA defines, as a boundary pattern to address this problem,  
+**IDG (Interface Determinability Gate)**.
+
+---
+
+### Principles IDG Protects
+
+- **Determinability over capability**  
+  Unless a state can be determined deterministically  
+  from an interface or authenticated sensing,  
   AI must not infer or assume it.
-- **Explicit Detachment**:
-  In such cases, the system must **detach** from decision support.
-  "Likely", "Probably", or "Usually" are explicitly disallowed.
 
-Silence in IDG is not a failure. It is a **boundary-preserving outcome**.
+- **Explicit Detachment**  
+  When determinability is not met,  
+  AI must **explicitly detach** from decision support.
 
-([Reference: BOA_IDG_DEFINITION.yaml](./BOA_IDG_DEFINITION.yaml))
+Expressions like "maybe", "probably", "usually"  
+are explicitly prohibited in boundary design.
+
+In IDG, silence is not failure.  
+It is **a normal result of maintaining boundaries**.
+
+---
+
+### Position within BOA
+
+IDG is  
+one of the **boundary patterns (Boundary Pattern)** in BOA,
+
+existing to:
+
+- Not make judgments itself
+- Only determine the conditions under which judgment is appropriate
+
+([Reference: determinability_gate.yaml](./patterns/idg/determinability_gate.yaml))
 
 ---
 
 ## RP: Resolution Protocol
 
-**Meaning** may only be promoted to **Resolution** (Judgment) through the **RP (Resolution Protocol)**.
+**Meaning (Meaning)** can escalate to **resolution (Resolution / Judgment)** only after passing through **RP (Resolution Protocol)**.
 
-Resolution is not a meaningful calculation; it is a **structural interlock**.
+Resolution is not a meaningful computation result. It is a **structural interlock**.
 It requires:
 
-- **Structural Check**: Does this promotion pass the pre-decision interlock?
-- **Responsible Actor**: Is a human explicitly accepting ownership?
-- **Recorded Act**: Is the act of judgment traceable?
+- **Structural check**: Has this escalation passed pre-judgment interlock?
+- **Responsible actor**: Has a human explicitly accepted ownership?
+- **Recorded action**: Is the act of judgment traceable?
 
-Automated systems may propose *Interpretation*,
-but they must never auto-upgrade it to *Resolution* without passing RP.
+Automation systems may propose *interpretation (Interpretation)*,
+but must not auto-escalate it to *resolution (Resolution)* without passing through RP.
 
-([Reference: BOA_RP_DEFINITION.yaml](./BOA_RP_DEFINITION.yaml))
+([Reference: BOA_RP_DEFINITION.yaml](./patterns/rp/BOA_RP_DEFINITION.yaml))
 
 ---
 
@@ -139,33 +163,33 @@ but they must never auto-upgrade it to *Resolution* without passing RP.
 
 BOA is used when:
 
-- implementing architectures derived from VCDesign
-- translating boundary decisions into durable system structure
-- introducing automation or AI into operational systems
-- building systems that must remain explainable over time
+- Implementing architecture derived from VCDesign
+- Converting boundary decisions into permanent system structure
+- Introducing automation or AI to operational systems
+- Building systems that must maintain explainability over the long term
 
 BOA is often recognized **after failure**:
 
-- when responsibilities become unclear
-- when meaning drifts across teams
-- when systems become brittle under change
+- When responsibility becomes unclear
+- When meaning drifts between teams
+- When change makes the system brittle
 
-In such cases, BOA helps reconstruct **where boundaries collapsed**.
+In such cases, BOA helps **reconstruct where boundaries collapsed**.
 
 ---
 
-## Relationship to VCDesign
+## Relationship with VCDesign
 
 VCDesign and BOA are intentionally separated.
 
-- **VCDesign**  
-  Determines *what must be decided* and *where judgment belongs*
+- **VCDesign**
+  Determines *what must be decided*, *where judgment belongs*
 
-- **BOA**  
-  Determines *how to construct systems that honor those decisions*
+- **BOA**
+  Determines *how to build systems that respect those decisions*
 
-BOA does not override VCDesign.  
-It **operationalizes** it.
+BOA does not override VCDesign.
+BOA makes VCDesign **operationalizable**.
 
 ---
 
@@ -173,26 +197,26 @@ It **operationalizes** it.
 
 This repository contains:
 
-- BOA structural principles
-- boundary-preserving construction rules
-- patterns derived from VCDesign judgments
+- BOA's structural principles
+- Construction rules that maintain boundaries
+- Patterns derived from VCDesign decisions
 
 It does **not** contain implementations.
 
-Bindings, UI signals, and operational tooling
-belong to **separate repositories**.
+Bindings, UI signals, and operational tools  
+belong in **separate repositories**.
 
 ---
 
-## Final Note
+## Finally
 
 If you are looking for:
 
-- what technology to choose
-- how to optimize performance
-- how to automate decisions
+- Which technologies to choose
+- How to optimize performance
+- How to automate decisions
 
-BOA is **not** the right tool.
+BOA is **not the right tool**.
 
-If you are trying to ensure that **decisions remain valid after systems change**,  
+If you are trying to ensure that **decisions remain valid even as systems change**,
 BOA is designed for that purpose.
