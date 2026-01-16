@@ -220,3 +220,17 @@ BOA is **not the right tool**.
 
 If you are trying to ensure that **decisions remain valid even as systems change**,
 BOA is designed for that purpose.
+
+---
+
+## Context
+
+This repository is part of a broader design philosophy exploring
+how responsibility, boundaries, and decision-making should be handled
+in AI-assisted systems.
+
+- VCDesign (design philosophy & architecture):
+  https://vcdesign.org/
+
+This project can be used independently.
+Understanding VCDesign is not required.
