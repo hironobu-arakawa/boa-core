@@ -1,15 +1,123 @@
 # Resolution Protocol (RP)
-— Boundary Transition Protocol —
+— 責任への昇格を制御するためのインターロック —
 
 Resolution Protocol（RP）は、  
-**Boundary-Oriented Architecture（BOA）における遷移プロトコル**です。
+**Meaning（解釈・仮説）を Responsibility（責任）へ昇格させる前に介在する、
+判断前インターロック**である。
 
-RP は、  
-判断を行う仕組みではありません。
+RP は「決めない」。
+RP は「解決しない」。
+RP は **解決してよい条件が満たされているか**だけを検査する。
 
-**判断が成立しなかった事象を、  
-正式に人間の判断へ返すための手続き**を定義します。
+---
 
+## RP が扱うもの / 扱わないもの
+
+### RP が扱うもの
+- Resolution への昇格条件（gate rules）
+- 判断不能時の正式な返却先（routing）
+- 責任が成立したか否かの状態管理
+
+### RP が扱わないもの
+- 解決策の内容
+- 判断の代行・自動化
+- 運用手順・ランブック
+
+---
+
+## 2つの役割（重要）
+
+RP には、性質の異なる **2つの役割**がある。
+
+### 1. 昇格インターロック（固定）
+
+`gate_rules` は、
+Meaning を Resolution に昇格させるための **不変条件**を定義する。
+
+- 責任主体が明示されているか
+- 目的・範囲・期限が定義されているか
+- Fact と Decision Trace に基づいているか
+
+これらが満たされない限り、
+Resolution への昇格は許可されない。
+
+---
+
+### 2. 返却・エスカレーション（拡張）
+
+`routing` は、
+**現在の境界内で解決できない場合の正式な返却先**を定義する。
+
+- 特定の人へ返す（human）
+- 責任プールへ返す（pool）
+
+これは **解決ではない**。
+解決不能を **状態として記録するための遷移**である。
+
+---
+
+## 責任プール（Responsibility Pool）について
+
+RP は責任プールを **運用しない**。
+RP は責任プールを **定義しない**。
+
+RP は、`target_pool_id` を **参照するだけ**である。
+
+- プールの定義
+- 受領（ack）
+- 割当（assignment）
+- 老化（aging）
+
+これらは **manifest / binding レイヤ**に属する。
+
+### 重要な不変条件
+
+> **責任プールへの返却（queue）は Resolution ではない。**
+
+- プールに返された状態は `WAITING_FOR_ASSIGNMENT`
+- 明示的な担当割当が行われて初めて、責任が成立する
+- 受領されない滞留は「責任の蒸発」ではなく、追跡される状態である
+
+---
+
+## 状態遷移の考え方（簡易）
+
+Meaning
+↓
+[RP Gate Check]
+├─ OK → Resolution（責任へ昇格）
+└─ NG → routing
+├─ return_to_human
+└─ return_to_pool
+↓
+WAITING_FOR_ASSIGNMENT
+↓
+ASSIGNED_TO_OWNER
+
+yaml
+コードをコピーする
+
+RP は **「止める」「返す」ことを正式な成果として扱う**。
+
+---
+
+## 設計上の注意（Design Notes）
+
+- RP を使って「責任をぼかす」ことはできない
+- しかし「最初から責任者を固定できない」状況は許容される
+- そのために **責任プール**という構造を用いる
+
+RP は、
+責任を軽くするための仕組みではない。
+
+**責任が成立する瞬間を、曖昧にしないための仕組み**である。
+
+---
+
+## 関連ドキュメント
+
+- RP 定義：`BOA_RP_DEFINITION.yaml`
+- 責任プールの思想：`vcdesign-core/docs/narrative/responsibility-pools.md`
 ---
 
 ## BOA における位置づけ
