@@ -1,0 +1,24 @@
+profile:
+  id: healthcare
+  name: Healthcare and Medical Interface
+  maps:
+    interface_kind:
+    - EMR_View
+    - VitalMonitor
+    - LabResultPanel
+    - PrescriptionPad
+    gate_reason_source: Clinical record or device reading only
+    do_not_model:
+    - diagnosis_uncertified
+    - patient_unexpressed_pain
+    - biological_root_cause
+    - prognosis_guarantee
+  examples:
+    interface_element_prefixes:
+    - 'VITALS:'
+    - 'LAB:'
+    - 'NOTE:'
+    target_ref_namespace:
+    - 'patient_id:'
+    - 'encounter:'
+    - 'device_serial:'

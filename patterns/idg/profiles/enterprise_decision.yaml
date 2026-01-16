@@ -1,0 +1,24 @@
+profile:
+  id: enterprise_decision
+  name: Enterprise Decision Support
+  maps:
+    interface_kind:
+    - BI_Dashboard
+    - ApprovalForm
+    - KRIPanel
+    - OrgChart
+    gate_reason_source: System recorded status and metrics only
+    do_not_model:
+    - stakeholder_hidden_agenda
+    - off_system_verbal_agreement
+    - rumor_mill
+    - unrecorded_policy_exception
+  examples:
+    interface_element_prefixes:
+    - 'KPI:'
+    - 'FORM:'
+    - 'WORKFLOW:'
+    target_ref_namespace:
+    - 'approval_id:'
+    - 'metric_id:'
+    - 'employee_id:'

@@ -95,23 +95,49 @@ AIは以下を行っては **ならない**：
 
 ---
 
-## IDG: 決定可能性ガードレール (Determinability Guardrail)
+### IDG: Interface Determinability Gate（決定可能性ゲート）
 
-BOAにおいて、能力 (Capability) は 決定可能性 (Determinability) を意味しない。
-システムがある状態を推論「できる」からといって、そう「すべき」であるとは限らない。
+BOA において、  
+**能力 (Capability) は 決定可能性 (Determinability) を意味しない。**
 
-BOAは **IDG (Interface Determinability Gate)** パターンを強制する：
+システムがある状態を推論「できる」からといって、  
+それを判断に用いて「よい」わけではない。
 
-- **能力よりも決定可能性**:
-  インターフェースや認定されたセンシングから状態を決定論的に断定できない限り、
-  AIはそれを推論したり仮定したりしてはならない。
-- **明示的な切り離し (Detachment)**:
-  そのような場合、システムは意思決定支援から **切り離され (detach)** なければならない。
-  「たぶん」「おそらく」「通常は」といった表現は明示的に禁止される。
+BOA は、この問題に対する境界パターンとして  
+**IDG（Interface Determinability Gate）** を定義する。
 
-IDGにおける沈黙は失敗ではない。それは **境界を維持する正常な結果** である。
+---
 
-([参照: BOA_IDG_DEFINITION.yaml](./BOA_IDG_DEFINITION.yaml))
+### IDG が守る原則
+
+- **能力よりも決定可能性**  
+  インターフェース、または認証されたセンシングから  
+  状態を決定論的に断定できない限り、  
+  AI はそれを推論・仮定してはならない。
+
+- **明示的な切り離し（Detachment）**  
+  決定可能性が満たされない場合、  
+  AI は意思決定支援から **明示的に離脱（detach）** しなければならない。
+
+「たぶん」「おそらく」「通常は」といった表現は、  
+境界設計上、明示的に禁止される。
+
+IDG における沈黙は失敗ではない。  
+それは **境界を維持するための正常な結果**である。
+
+---
+
+### BOA における位置づけ
+
+IDG は、  
+BOA における **境界パターン（Boundary Pattern）** の一つであり、
+
+- 判断そのものは行わず
+- 判断が成立してよい条件のみを判定する
+
+ための構造である。
+
+([参照: determinability_gate.yaml](./patterns/idg/determinability_gate.yaml))
 
 ---
 
@@ -129,7 +155,7 @@ IDGにおける沈黙は失敗ではない。それは **境界を維持する�
 自動化システムは *解釈 (Interpretation)* を提案することはできるが、
 RPを通過することなく、それを *解決 (Resolution)* へと自動昇格させてはならない。
 
-([参照: BOA_RP_DEFINITION.yaml](./BOA_RP_DEFINITION.yaml))
+([参照: BOA_RP_DEFINITION.yaml](./patterns/rp/BOA_RP_DEFINITION.yaml))
 
 ---
 

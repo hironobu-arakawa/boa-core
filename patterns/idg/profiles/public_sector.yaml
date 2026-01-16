@@ -1,0 +1,24 @@
+profile:
+  id: public_sector
+  name: Public Sector and Government
+  maps:
+    interface_kind:
+    - CitizenPortal
+    - CaseManagement
+    - PublicRecordSearch
+    - RegulatoryForm
+    gate_reason_source: Submitted form or official record only
+    do_not_model:
+    - political_motivation
+    - classified_reasoning
+    - legislative_intent_absent_text
+    - citizen_honesty_verification
+  examples:
+    interface_element_prefixes:
+    - 'FORM:'
+    - 'RECORD:'
+    - 'NOTICE:'
+    target_ref_namespace:
+    - 'application_id:'
+    - 'citizen_id:'
+    - 'regulation:'

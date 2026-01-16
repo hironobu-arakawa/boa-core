@@ -1,0 +1,24 @@
+profile:
+  id: personal_ai
+  name: Personal Assistant and Smart Home
+  maps:
+    interface_kind:
+    - VoiceCommandLog
+    - CalendarView
+    - SmartDeviceState
+    - MessageThread
+    gate_reason_source: User command or device status only
+    do_not_model:
+    - user_emotional_state_inferred
+    - private_offset_considerations
+    - human_relationship_dynamics
+    - unstated_preference_change
+  examples:
+    interface_element_prefixes:
+    - 'CMD:'
+    - 'CALENDAR:'
+    - 'DEVICE:'
+    target_ref_namespace:
+    - 'event_id:'
+    - 'iot_device:'
+    - 'contact:'
