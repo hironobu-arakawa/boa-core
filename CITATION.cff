@@ -1,26 +1,23 @@
 cff-version: 1.2.0
-title: "VCDesign Core"
-message: >
-  If you use or reference this work, please cite it to preserve
-  the original design context.
-type: software
-
+message: "If you use this work, please cite it as below."
+title: "BOA: Boundary-Oriented Architecture"
+abstract: >
+  BOA (Boundary-Oriented Architecture) is a construction method for systems
+  that must sustain boundary-related decisions over the long term.
+  It explicitly separates Fact, Meaning, and Responsibility to prevent
+  decision collapse in automated and AI-assisted systems.
 authors:
   - family-names: Arakawa
     given-names: Hironobu
-
-repository-code: "https://github.com/VCDesign-org/vcdesign-core"
-
-abstract: >
-  VCDesign (Value Continuity Design) is a design framework that focuses on
-  preserving value continuity across time and change by explicitly defining
-  responsibility boundaries and deliberate decision suspension.
-
-keywords:
-  - value continuity
-  - responsibility boundary
-  - decision suspension
-  - system design
-  - AI governance
-
+version: 1.1.0
+date-released: 2026-01-19 # 公開日に合わせて変更してください
 license: CC-BY-4.0
+repository-code: "https://github.com/VCDesign-org/boa-core"
+keywords:
+  - boundary-oriented-architecture
+  - boa
+  - system-architecture
+  - responsibility-boundary
+  - vcdesign
+  - idg
+  - resolution-protocol
