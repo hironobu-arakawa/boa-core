@@ -11,7 +11,7 @@ authors:
     given-names: Hironobu
 version: 1.1.0
 date-released: 2026-01-19 # 公開日に合わせて変更してください
-license: CC-BY-4.0
+license: MIT
 repository-code: "https://github.com/VCDesign-org/boa-core"
 keywords:
   - boundary-oriented-architecture
