@@ -19,6 +19,8 @@ BOAは **決定 (Decision) と 実装 (Implementation) の間** に位置する�
 
 したがって、BOAは哲学的ではなく **方法論的** である。
 
+※ `/specs` は正本、`/patterns` は証拠・適用パターン（増殖してよい）です。
+
 ---
 
 ## BOAとは何か
@@ -38,6 +40,8 @@ BOAは、以下のようなシステムに適用される：
 - 時間の経過とともに意味が漂流 (drift) する可能性がある場合
 - 自動化によって判断が不用意に吸収されてはならない場合
 
+BOA は VCDesign Core によって統治されるアーキテクチャであり、
+判断・責任・価値継続の定義を独自に拡張しない。
 ---
 
 ## BOAではないもの
@@ -137,7 +141,7 @@ BOA における **境界パターン（Boundary Pattern）** の一つであり
 
 ための構造である。
 
-([参照: determinability_gate.yaml](./patterns/idg/determinability_gate.yaml))
+([参照: determinability_gate.yaml](/specs/determinability_gate.yaml))
 
 ---
 
@@ -155,7 +159,7 @@ BOA における **境界パターン（Boundary Pattern）** の一つであり
 自動化システムは *解釈 (Interpretation)* を提案することはできるが、
 RPを通過することなく、それを *解決 (Resolution)* へと自動昇格させてはならない。
 
-([参照: BOA_RP_DEFINITION.yaml](./patterns/rp/BOA_RP_DEFINITION.yaml))
+([参照: resolution_protocol.yaml](/specs/resolution_protocol.yaml))
 
 ---
 

@@ -19,6 +19,8 @@ BOA is positioned **between Decision and Implementation**.
 
 Therefore, BOA is not philosophical but **methodological**.
 
+* `/specs` is the authoritative source; `/patterns` contains evidence and application patterns (which may proliferate).
+
 ---
 
 ## What is BOA
@@ -137,7 +139,7 @@ existing to:
 - Not make judgments itself
 - Only determine the conditions under which judgment is appropriate
 
-([Reference: determinability_gate.yaml](./patterns/idg/determinability_gate.yaml))
+([Reference: determinability_gate.yaml](/specs/determinability_gate.yaml))
 
 ---
 
@@ -155,7 +157,7 @@ It requires:
 Automation systems may propose *interpretation (Interpretation)*,
 but must not auto-escalate it to *resolution (Resolution)* without passing through RP.
 
-([Reference: BOA_RP_DEFINITION.yaml](./patterns/rp/BOA_RP_DEFINITION.yaml))
+([Reference: resolution_protocol.yaml](/specs/resolution_protocol.yaml))
 
 ---
 

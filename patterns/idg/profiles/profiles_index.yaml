@@ -1,0 +1,25 @@
+profiles_index:
+  purpose: >
+    Domain/interface mappings for IDG.
+    These files are non-normative: they must not change pass/block decisions.
+  invariants:
+    - "Profiles must not introduce new gate rules."
+    - "Profiles must not override IDG output semantics."
+    - "Profiles only provide vocabulary: interface_kind / do_not_model / examples."
+  entries:
+    - id: analytics_llm
+      path: "./analytics_llm.yaml"
+    - id: enterprise_decision
+      path: "./enterprise_decision.yaml"
+    - id: factory
+      path: "./factory.yaml"
+    - id: finance
+      path: "./finance.yaml"
+    - id: healthcare
+      path: "./healthcare.yaml"
+    - id: legal
+      path: "./legal.yaml"
+    - id: personal_ai
+      path: "./personal_ai.yaml"
+    - id: public_sector
+      path: "./public_sector.yaml"
