@@ -1,0 +1,141 @@
+apiVersion: vcdesign.org/v1
+kind: RCADelegation
+metadata:
+  name: "ui-text-fixer-agent"
+  version: "1.3.0"
+  created_by: "hironobu.arakawa@example.com"
+  integrity_check: "enforce_signature_on_change"
+
+spec:
+  # 【1. System Integrity (Locked)】
+  system_integrity:
+    resolution_strategy: "specific_deny > scope_allow > wildcard_deny"
+    write_access_mode: "scope_explicit_allow"
+
+    read_access:
+      definition: "deny_read implies blocking open(), opendir(), stat(), and access() syscalls."
+      allow_list:
+        - ".vcdesign/schemas/public/**"
+        - ".vcdesign/dictionaries/i18n/**"
+      deny_list:
+        - ".vcdesign/keys/**"
+        - ".vcdesign/secrets/**"
+        - ".vcdesign/policies/internal/**"
+
+    write_protection:
+      deny_list:
+        - ".vcdesign/**"
+      default_policy:
+        deny: "**"
+
+  # 【2. Scope & AST Constraints (Strict & Practical)】
+  scope:
+    targets:
+      - path: "src/locales/**/*.json"
+        rule: "value_update_only"
+
+      - path: "src/components/**/*.tsx"
+        rule: "jsx_text_literal_strict"
+        ast_policy:
+          # 構造変更の定義（リファクタリング禁止）
+          structure_constraint: "text_content_update_only"
+          
+          # 【New: Implementation Details】
+          structure_constraint_details:
+            # "Hello World" -> "Hello" + " " + "World" のような分割を禁止。
+            # 常に Node数 が 1:1 で対応していなければならない。
+            treat_node_split_merge_as_structure_change: true
+            
+            # Prettier等が勝手に入れる改行やインデント変更による
+            # AST上の位置ズレ（Location Change）は無視する。
+            ignore_formatting_only_changes: true
+
+            # 【Final Piece: The Standard】
+            # 「フォーマットとは何か？」をPrettierの挙動と定義する。
+            # 実装指示: IDGは変更前後のコードにPrettierを適用してからAST比較を行うこと。
+            formatting_only_definition: "prettier_equivalent"
+
+          node_constraints:
+            JSXText:
+              allowed: true
+              deny_jsx_elements: ["script", "style", "iframe", "object", "embed"]
+            
+            StringLiteral:
+              allowed: true
+              required_parent_type: "JSXAttribute"
+
+          attribute_constraints:
+            # 【New: Target Scope】
+            # この属性制約は StringLiteral にのみ適用される。
+            # (JSXExpressionContainer等は node_constraints で既に弾かれている前提)
+            applies_to_node_types: ["StringLiteral"]
+            
+            allowlist: 
+              - "title"
+              - "label"
+              - "aria-label"
+              - "placeholder"
+              - "alt"
+              - "description"
+              - "tooltip"
+            
+            denylist:
+              - "id"
+              - "style"
+              - "className"
+              - "role"
+              - "onClick"
+              - "dangerouslySetInnerHTML"
+            
+            deny_patterns:
+              - "^data-"
+              - "^on[A-Z]"
+
+  # 【3. Content Guardrails (No Change)】
+  content_guardrails:
+    forbidden_patterns:
+      - regex: "(?i)(password|secret|key|token)"
+        severity: "critical"
+    terminology:
+      allowlist_artifact: 
+        path: "docs/dictionary/product_names.csv"
+        sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+
+  # 【4. Action Policy (No Change)】
+  action_policy:
+    type: "review_and_sign"
+    output_artifact: "ccp_signature"
+    auto_merge_gate:
+      require_status_checks: true
+      metrics_policy:
+        method: "git_diff_numstat"
+        count_mode: "added_plus_deleted"
+      thresholds:
+        max_diff_lines: 80
+
+  # 【5. Risk Budget (No Change)】
+  risk_budget:
+    initial_balance: 100
+    event_sources:
+      - source: "git_audit_log"
+        events:
+          revert_by_human:
+            base_weight: -50
+            tag_modifiers:
+              bug_found: 0
+              ui_degradation: -10
+              security_incident: -50
+              compliance_breach: -50
+      - source: "ci_pipeline"
+        events:
+          test_failure:
+            base_weight: -10
+            tag_modifiers:
+              flaky_test: +10
+              critical_path: -20
+
+  # 【6. Lifecycle (No Change)】
+  lifecycle:
+    command_interface:
+      accepted_commands: ["active", "pause", "revoke"]
+      require_signature: true
