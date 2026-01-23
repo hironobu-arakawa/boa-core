@@ -99,49 +99,33 @@ AIは以下を行っては **ならない**：
 
 ---
 
-### IDG: Interface Determinability Gate（決定可能性ゲート）
+### RCA: Responsibility Closure Agent（責任閉鎖エージェント）
 
-BOA において、  
-**能力 (Capability) は 決定可能性 (Determinability) を意味しない。**
+BOA において、
+**AIは「能力 (Capability)」があっても「責任 (Responsibility)」を持てない。**
 
-システムがある状態を推論「できる」からといって、  
-それを判断に用いて「よい」わけではない。
+システムがある状態を推論「できる」からといって、
+それが責任ある判断として成立するわけではない。
 
-BOA は、この問題に対する境界パターンとして  
-**IDG（Interface Determinability Gate）** を定義する。
-
----
-
-### IDG が守る原則
-
-- **能力よりも決定可能性**  
-  インターフェース、または認証されたセンシングから  
-  状態を決定論的に断定できない限り、  
-  AI はそれを推論・仮定してはならない。
-
-- **明示的な切り離し（Detachment）**  
-  決定可能性が満たされない場合、  
-  AI は意思決定支援から **明示的に離脱（detach）** しなければならない。
-
-「たぶん」「おそらく」「通常は」といった表現は、  
-境界設計上、明示的に禁止される。
-
-IDG における沈黙は失敗ではない。  
-それは **境界を維持するための正常な結果**である。
+BOA は、この問題に対するエージェントパターンとして
+**RCA（Responsibility Closure Agent）** を定義する。
 
 ---
 
-### BOA における位置づけ
+### RCA が守る原則
 
-IDG は、  
-BOA における **境界パターン（Boundary Pattern）** の一つであり、
+- **意図の明示 (Explicit Intent)**
+  RCAは入力に対し、以下のいずれかの意思を明示しなければならない。
+  - **ACCEPTED**: 責任を引き受け、署名する
+  - **DENIED**: 条件不備等のため、判断を拒否する
+  - **UNKNOWN**: 判断材料が不足している
 
-- 判断そのものは行わず
-- 判断が成立してよい条件のみを判定する
+- **沈黙の禁止 (No Silent Failure)**
+  RCAが責任を引き受けない（DENIED/UNKNOWN）場合、
+  プロセスは停止するか、人間へエスカレーションされなければならない。
+  曖昧なまま処理が進むことは許されない。
 
-ための構造である。
-
-([参照: determinability_gate.yaml](/specs/determinability_gate.yaml))
+([参照: responsibility_closure_agent.yaml](/specs/responsibility_closure_agent.yaml))
 
 ---
 

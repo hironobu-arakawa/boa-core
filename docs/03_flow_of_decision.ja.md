@@ -1,9 +1,9 @@
 # Flow of Decision
 
-このドキュメントは、  
+このドキュメントは、
 BOA Core における **判断の進行順序** を示します。
 
-ここで示すのはアルゴリズムではありません。  
+ここで示すのはアルゴリズムではありません。
 **「判断が進んでよい条件」と「止まる条件」** だけを明確にします。
 
 ---
@@ -12,12 +12,11 @@ BOA Core における **判断の進行順序** を示します。
 
 判断は、以下の順序でのみ進みます。
 
-1. BOA（境界の確認）
-2. IDG（判断可能性の確認）
-3. RP（判断の扱いを選択）
-4. RCA（責任の閉鎖）
+1. **BOA** （境界の確認 - どこで？）
+2. **RCA** （責任の引き受け - 誰が？）
+3. **RP**  （解決の認定 - どう扱う？）
 
-この順序は変更できません。
+この順序は変更できません。旧来のIDG（判断可能性判定）はRCAのプロセスに統合されました。
 
 ---
 
@@ -26,32 +25,32 @@ BOA Core における **判断の進行順序** を示します。
 ```pseudo
 function decision_flow(input, context):
 
-    // 1. Boundary check
+    // 1. Boundary check (BOA)
+    // 境界内に収まっているか？
     if not BOA.allows(input, context):
         return STOP("Outside allowed boundary")
 
-    // 2. Determinability check
-    determinability = IDG.evaluate(input, context)
+    // 2. Responsibility Assessment (RCA)
+    // エージェントは責任を引き受けるか？
+    assessment = RCA.assess(input, context)
 
-    if determinability == INDETERMINABLE:
-        return RETURN("Cannot decide under current conditions")
+    if assessment.state == DENIED:
+         return STOP("RCA denied responsibility: " + assessment.reason)
+    
+    if assessment.state == UNKNOWN:
+         return ESCALATE("RCA cannot decide: " + assessment.reason)
 
-    // 3. Resolution
-    resolution = RP.resolve(input, context)
+    // assessment.state == ACCEPTED の場合のみ進む
 
-    if resolution == RESOLVE:
-        outcome = apply_decision(input)
+    // 3. Resolution Protocol (RP)
+    // その引き受けはプロトコルに適合しているか？
+    resolution = RP.verify_and_promote(assessment)
 
-    else if resolution == REJECT:
-        outcome = discard_decision(input)
-
-    else if resolution == RETURN:
-        return RETURN("Decision returned by protocol")
-
-    // 4. Responsibility closure
-    RCA.close(outcome, resolution, context)
-
-    return outcome
+    if resolution == PROMOTED_TO_RESOLUTION:
+        return COMMIT_RESOLUTION(resolution)
+    
+    else:
+        return ROUTE(resolution.routing_instruction)
 ```
 
 ---
@@ -66,86 +65,63 @@ if not BOA.allows(input, context):
 ```
 
 BOA は最初に必ず評価されます。
+ここでの `STOP` はエラーではありません。「判断を開始しない」という正常な終了です。
 
-ここでの `STOP` は エラーではありません。  
-「判断を開始しない」という正常な終了です。
-
-BOA は、  
-判断の正当性ではなく、判断の許可領域を扱います。
-
-### 2. IDG — Determinability Check
+### 2. RCA — Responsibility Assessment
 
 ```pseudo
-if determinability == INDETERMINABLE:
-    RETURN
+assessment = RCA.assess(input, context)
 ```
 
-判断不能は失敗ではありません。  
-判断不能は「戻す」理由になります。
+RCAは、入力された判断案件に対して **「主体としての意思」** を示します。
 
-ここでは RP は起動しません。
+-   **ACCEPTED**: 「私が責任を持ちます（署名）」
+-   **DENIED**: 「私は判断しません（拒否）」
+-   **UNKNOWN**: 「判断できません（不明）」
 
-IDG が通らない状態で判断を進めることは、  
-設計違反です。
+これがかつてのIDG（判断可能性判定）に代わる、より能動的なステップです。
+RCAが首を縦に振らない限り、後続のプロセスは絶対に動きません。
 
-### 3. RP — Resolution
+### 3. RP — Resolution Protocol
 
 ```pseudo
-resolution = RP.resolve(...)
+resolution = RP.verify_and_promote(assessment)
 ```
 
-RP は、判断結果を計算しません。  
-RP が決めるのは 「この判断をどう扱うか」 です。
+RPは、RCAが「引き受ける（ACCEPTED）」と言った案件に対して、**「手続きの正当性」** を検査します。
 
-RP が返せる値は、必ず以下のいずれかです。
+-   署名はあるか？
+-   必須項目は埋まっているか？
+-   権限はあるか？
 
-**RESOLVE | REJECT | RETURN**
+すべて適正であれば、RPはこれを **Resolution（正式な解決）** に昇格させ、確定させます。
+そうでなければ、人間に戻す（Return）などのルーティングを行います。
 
-沈黙・暗黙・デフォルトは存在しません。
-
-### 4. RCA — Responsibility Closure
-
-```pseudo
-RCA.close(outcome, resolution, context)
-```
-
-RCA は、  
-判断の成否や品質を評価しません。
-
-RCA が行うのは、
-
-- この判断は誰の責任か
-- どの判断が、どの条件で行われたか
-- どこまでが自動で、どこからが人か
-
-を 残すことです。
+---
 
 ## このフローが守っている不変条件
 
 この構造には、以下の不変条件があります。
 
-- BOA を通らずに判断は始まらない
-- IDG を通らずに RP は起動しない
-- RP は必ず明示的な結果を返す
-- RCA を通らない判断は「存在しない」
+-   BOA を通らずに判断は始まらない
+-   **RCA が引き受けない判断は RP に到達しない**
+-   RP は必ず明示的な結果（Resolution または Routing）を返す
+-   誰の責任でもない判断はシステム内に存在し得ない
+
+---
 
 ## 実装への注意（重要）
 
-この擬似コードは、  
-実装例ではありません。
-
-- 同期 / 非同期は規定しません
-- 例外処理方法は規定しません
-- 言語・フレームワークを想定しません
-
+この擬似コードは実装例ではありません。
 ここで示しているのは、
 
-> 判断が壊れないために  
-> 必ず守られるべき流れ
+> **責任の所在が不明なまま、処理が進むことを防ぐための構造**
 
 のみです。
 
+---
+
 ## 次に読むもの
 
-判断が止まる理由と、その正当性  
+判断が止まる理由と、その正当性
 → [04_failure_and_stop.md](04_failure_and_stop.md)

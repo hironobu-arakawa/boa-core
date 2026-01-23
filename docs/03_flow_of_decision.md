@@ -1,9 +1,9 @@
 # Flow of Decision
 
-This document shows **the progression order of decisions** in BOA Core.
+This document illustrates the **order of decision progression** in BOA Core.
 
-This is not an algorithm.
-It only clarifies **"conditions under which a decision may proceed" and "conditions under which it stops"**.
+This does not show an algorithm.
+It only clarifies **"conditions under which decision may proceed" and "conditions under which it must stop".**
 
 ---
 
@@ -11,46 +11,45 @@ It only clarifies **"conditions under which a decision may proceed" and "conditi
 
 Decisions proceed only in the following order:
 
-1. **BOA** (Boundary Check)
-2. **IDG** (Determinability Check)
-3. **RP** (Resolution Choice)
-4. **RCA** (Responsibility Closure)
+1. **BOA** (Boundary Check - Where?)
+2. **RCA** (Responsibility Acceptance - Who?)
+3. **RP**  (Resolution Certification - How to handle?)
 
-This order cannot be changed.
+This order cannot be changed. The traditional IDG (determinability check) has been integrated into the RCA process.
 
 ---
 
-## Pseudo Code Representation (Concept)
+## Pseudo-code Representation (Concept)
 
 ```pseudo
 function decision_flow(input, context):
 
-    // 1. Boundary check
+    // 1. Boundary check (BOA)
+    // Is it within the boundary?
     if not BOA.allows(input, context):
         return STOP("Outside allowed boundary")
 
-    // 2. Determinability check
-    determinability = IDG.evaluate(input, context)
+    // 2. Responsibility Assessment (RCA)
+    // Does the agent accept responsibility?
+    assessment = RCA.assess(input, context)
 
-    if determinability == INDETERMINABLE:
-        return RETURN("Cannot decide under current conditions")
+    if assessment.state == DENIED:
+         return STOP("RCA denied responsibility: " + assessment.reason)
+    
+    if assessment.state == UNKNOWN:
+         return ESCALATE("RCA cannot decide: " + assessment.reason)
 
-    // 3. Resolution
-    resolution = RP.resolve(input, context)
+    // Proceed only if assessment.state == ACCEPTED
 
-    if resolution == RESOLVE:
-        outcome = apply_decision(input)
+    // 3. Resolution Protocol (RP)
+    // Is the acceptance compliant with the protocol?
+    resolution = RP.verify_and_promote(assessment)
 
-    else if resolution == REJECT:
-        outcome = discard_decision(input)
-
-    else if resolution == RETURN:
-        return RETURN("Decision returned by protocol")
-
-    // 4. Responsibility closure
-    RCA.close(outcome, resolution, context)
-
-    return outcome
+    if resolution == PROMOTED_TO_RESOLUTION:
+        return COMMIT_RESOLUTION(resolution)
+    
+    else:
+        return ROUTE(resolution.routing_instruction)
 ```
 
 ---
@@ -65,77 +64,61 @@ if not BOA.allows(input, context):
 ```
 
 BOA is always evaluated first.
+`STOP` here is not an error. It is a normal termination meaning "Do not start decision."
 
-`STOP` here is not an error.
-It is a normal termination meaning "Do not start decision".
-
-BOA deals with the allowed area of the decision, not the correctness of the decision.
-
-### 2. IDG — Determinability Check
+### 2. RCA — Responsibility Assessment
 
 ```pseudo
-if determinability == INDETERMINABLE:
-    RETURN
+assessment = RCA.assess(input, context)
 ```
 
-Indeterminable is not a failure.
-Indeterminable is a reason to "Return".
+RCA indicates its **"intention as an agent"** regarding the input judgment case.
 
-RP is not activated here.
+-   **ACCEPTED**: "I take responsibility (sign)."
+-   **DENIED**: "I will not judge (reject)."
+-   **UNKNOWN**: "I cannot decide (unknown)."
 
-Proceeding with a decision while IDG does not pass is a violation of design.
+This is a more active step that replaces the former IDG (determinability check).
+Unless RCA nods yes, simple processing will absolutely not proceed.
 
-### 3. RP — Resolution
+### 3. RP — Resolution Protocol
 
 ```pseudo
-resolution = RP.resolve(...)
+resolution = RP.verify_and_promote(assessment)
 ```
 
-RP does not calculate the decision result.
-What RP decides is "How to treat this decision".
+RP inspects the **"legitimacy of the procedure"** for cases where RCA said "I accept (ACCEPTED)".
 
-The value RP can return is always one of the following:
+-   Is there a signature?
+-   Are required items filled?
+-   Is there authority?
 
-**RESOLVE | REJECT | RETURN**
+If everything is proper, RP promotes this to **Resolution (Formal Solution)** and finalizes it.
+Otherwise, it performs routing such as returning to human (Return).
 
-Silence, implication, and defaults do not exist.
+---
 
-### 4. RCA — Responsibility Closure
-
-```pseudo
-RCA.close(outcome, resolution, context)
-```
-
-RCA does not evaluate the success or quality of the decision.
-
-What RCA does is to record:
-
-- Whose responsibility is this decision?
-- Which decision was made under what conditions?
-- How far was automatic and from where was human?
-
-## Invariants Protected by This Flow
+## Invariants guarded by this flow
 
 This structure has the following invariants:
 
-- Decision creates not start without passing BOA
-- RP does not activate without passing IDG
-- RP always returns an explicit result
-- A decision not passing RCA "does not exist"
+-   Decision does not start without passing BOA.
+-   **Decisions not accepted by RCA never reach RP.**
+-   RP always returns an explicit result (Resolution or Routing).
+-   Decisions belonging to no one cannot exist within the system.
 
-## Note for Implementation (Important)
+---
 
-This pseudo code is not an implementation example.
+## Note on Implementation (Important)
 
-- Sync / Async is not specified
-- Exception handling method is not specified
-- Language / Framework is not assumed
-
+This pseudo-code is not an implementation example.
 What is shown here is only:
 
-> **The flow that must be protected so that the decision does not break.**
+> **The structure to prevent processing from proceeding while the locus of responsibility remains unclear.**
 
-## What to Read Next
+---
 
-Reasons why a decision stops, and its legitimacy
+## What to read next
+
+Reason for decision stop and its justification
 → [04_failure_and_stop.md](04_failure_and_stop.md)

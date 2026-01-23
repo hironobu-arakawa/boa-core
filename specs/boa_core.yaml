@@ -46,25 +46,29 @@ boa_core:
         - "explicit_interface"
         - "no_implicit_escalation"
 
-    determinability_gate:
-      name: "Interface Determinability Gate (IDG)"
+    responsibility_closure_agent:
+      name: "Responsibility Closure Agent (RCA)"
       role: >
-        Evaluates whether a judgment is determinable within
-        the declared boundary.
-      authoritative_spec: "/specs/determinability_gate.yaml"
+        Evaluates input and explicitly accepts (signs), rejects,
+        or delegates responsibility for a judgment.
+      authoritative_spec: "/specs/responsibility_closure_agent.yaml"
+      version: "1.0.0" # Frozen reference
       guarantees:
-        - "does_not_decide"
-        - "does_not_assign_responsibility"
-        - "emits_explicit_determinability_classification"
+        - "does_not_silently_pass"
+        - "requires_signature_for_acceptance"
+        - "explicit_unknown_state"
 
     resolution_protocol:
       name: "Resolution Protocol (RP)"
       role: >
         Controls elevation from Meaning to Resolution
-        after determinability evaluation.
+        after RCA acceptance.
       authoritative_spec: "/specs/resolution_protocol.yaml"
+      version: "1.3.0" # Frozen reference
       prerequisites:
-        - "determinability_gate.classification == DETERMINABLE"
+        - "rca_assessment exists"
+      promotion_allowed_when:
+        - "rca_assessment.state == ACCEPTED"
       guarantees:
         - "no_resolution_without_responsible_actor"
         - "no_silent_resolution"
@@ -80,33 +84,35 @@ boa_core:
       - step: attempt_judgment
         description: "A judgment is requested within a boundary."
 
-      - step: determinability_check
-        component: determinability_gate
+      - step: responsibility_assessment
+        component: responsibility_closure_agent
         description: >
-          IDG evaluates whether the judgment is determinable.
+          RCA evaluates whether to accept responsibility for the judgment.
 
-      - step: classification_branch
+      - step: closure_branch
         branches:
-          DETERMINABLE:
+          ACCEPTED:
             next: resolution_protocol
-          INDETERMINABLE:
+          DENIED:
             next: resolution_protocol
+            note: "Must NOT proceed. Stop or Retry."
           UNKNOWN:
             next: resolution_protocol
+            note: "Escalate or Pool."
 
       - step: resolution_protocol
         description: >
-          RP either promotes to Resolution or formally routes
+          RP either promotes to Resolution (if ACCEPTED) or formally routes
           the case to human judgment or responsibility pool.
 
   # -------------------------------------------------------------------
   # Invariants (non-negotiable)
   # -------------------------------------------------------------------
   invariants:
-    - "All judgments must pass through IDG before RP"
-    - "RP must not be invoked without an IDG output"
+    - "All judgments must pass through RCA before RP"
+    - "RP must not be invoked without an RCA assessment"
     - "No component may elevate to Resolution without RP"
-    - "Indeterminability is a valid and recordable outcome"
+    - "Denial (DENIED) is a valid and recordable outcome"
     - "UNKNOWN must never be treated as success"
     - "No judgment may bypass boundary declaration"
 
@@ -116,10 +122,10 @@ boa_core:
   extension_policy:
     allowed:
       - add_boundary_types
-      - add_domain_specific_idg_rules_via_binding
+      - add_domain_specific_rca_policies_via_binding
       - add_routing_targets_in_rp
     forbidden:
-      - weaken_idg_core_rules
+      - bypass_rca_signature_requirement
       - auto_promote_resolution
       - redefine_responsibility
       - bypass_judgment_flow
@@ -145,17 +151,17 @@ boa_core:
       Anything beyond this structure remains human judgment.
 
 
-    determinability_gate:
-      name: "Interface Determinability Gate (IDG)"
+    responsibility_closure_agent:
+      name: "Responsibility Closure Agent (RCA)"
       role: >
-        Evaluates whether a judgment is determinable within
-        the declared boundary.
-      authoritative_spec: "/specs/determinability_gate.yaml"
+        Evaluates input and explicitly accepts (signs), rejects,
+        or delegates responsibility for a judgment.
+      authoritative_spec: "/specs/responsibility_closure_agent.yaml"
 
       # ↓ この参照を追加
-      profile_index_ref: "/patterns/idg/profiles/profiles_index.yaml"
+      profile_index_ref: "/patterns/responsibility_closure_agent/profiles/profiles_index.yaml"
 
       guarantees:
-        - "does_not_decide"
-        - "does_not_assign_responsibility"
-        - "emits_explicit_determinability_classification"
+        - "does_not_silently_pass"
+        - "requires_signature_for_acceptance"
+        - "explicit_unknown_state"

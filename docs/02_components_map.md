@@ -1,140 +1,95 @@
 # Components Map
 
-This document is **not a material for comparing or classifying** the elements that make up BOA Core.
+This document defines the elements that make up BOA Core from the perspective of **"what question they exist to answer."**
 
-What is done here is **to clarify "what question each exists to answer."**
+The traditional IDG (mechanical gate) has been abolished, and the RCA (agentic subject) has subsumed its role.
 
 ---
 
-## Overview: The 4 are "Checkpoints", not "Roles"
+## Overview: The Three Pillars
 
-BOA / IDG / RP / RCA are not groups of roles for dividing tasks.
+BOA / RCA / RP each play a role in a different dimension.
 
-They are all designed as **"Checkpoints" that must be passed as the decision proceeds.**
+1.  **BOA Core** (Structure: Separation)
+2.  **RCA** (Agent: Judge)
+3.  **RP** (Criteria: Protocol)
 
-- They do not exist simultaneously.
-- They cannot be skipped.
-- Their order cannot be swapped.
+These resemble the relationship of **"Place, Person, and Rule."**
 
 ---
 
 ## BOA — Boundary-Oriented Architecture
 
+**Role: Separation Function**
+
 **Question:
-"From here on, is it okay for AI to decide?"**
+"Where should the judgment take place?"**
 
-BOA is the checkpoint that appears first.
+BOA is a "structure" that separates the system via Boundaries.
+It physically and logically divides the areas where AI is allowed to judge from the areas where humans must judge.
 
-What BOA does is not to evaluate the correctness of the decision.
+-   Creates the "place" for judgment
+-   Prevents chaotic interference
+-   Provides "compartments" to clarify the locus of responsibility
 
-- Is it the correct answer? ❌
-- Is the accuracy sufficient? ❌
-- Is it efficient? ❌
-
-BOA looks at only one thing:
-
-> **Has this decision entered meaning "Area" where it may be entrusted to AI?**
-
-BOA defines **"the place where decision is allowed"**, not the "possibility of decision".
+> **BOA does not judge. It defines the "place" where judgment occurs.**
 
 ---
 
-## IDG — Interface Determinability Gate
+## RCA — Responsibility Closure Agent
+
+**Role: The Judge**
 
 **Question:
-"Is this input in a state where it can be decided now?"**
+"Will you accept this judgment?"**
 
-IDG appears only after passing BOA.
+RCA is the "Agent" that actually performs the judgment within the place defined by BOA.
+It subsumes the role of the former IDG (gate), performing not just mechanical determination but expressing its will as an agent.
 
-What IDG evaluates is not the performance or intelligence of the model.
+RCA indicates one of the following "intentions" regarding the input:
 
-- Accuracy ❌
-- Amount of learning ❌
-- Past track record ❌
+1.  **ACCEPTED**:
+    -   "I take responsibility for this judgment and sign it."
+2.  **DENIED**:
+    -   "I will not judge because the conditions are not met."
+3.  **UNKNOWN**:
+    -   "I do not have enough information to judge."
 
-What IDG looks at is:
-
-> **Are inputs, context, and prerequisites complete?**
-
-IDG returns one of the following:
-
-- **Determinable** (Decision possible)
-- **Indeterminable** (Decision impossible)
-
-What determines here is that **Indeterminable is not an error.**
+> **RCA is not just a filter. It is the "bearer of responsibility."**
 
 ---
 
 ## RP — Resolution Protocol
 
-**Question:
-"How to treat this decision?"**
-
-RP activates only when IDG returns "Determinable".
-
-The role of RP is not to calculate the decision result.
-
-What RP does is **to explicitly choose how to handle the decision.**
-
-The result RP returns is always one of the following:
-
-- **Resolve**
-  Finalizes the decision and proceeds.
-
-- **Reject**
-  Discards the decision and does not adopt it.
-
-- **Return**
-  Returns the decision to a human or upstream design.
-
-There is no option for RP to "remain silent".
-
----
-
-## RCA — Responsibility Closure Architecture
+**Role: The Criteria**
 
 **Question:
-"Where does the responsibility for this decision remain?"**
+"Is it recognized as a formal Resolution?"**
 
-RCA is the checkpoint that appears last.
+RP is the "Protocol (procedure/criteria)" for the system to formally recognize the judgment made by RCA.
+Even if RCA says "I accept," if it violates organizational or system rules, RP rejects it.
 
-RCA does not participate in the result of the decision itself.
+What RP checks:
 
-What RCA does is:
+-   Is there an RCA signature?
+-   Are the required traces present?
+-   Is the responsible entity (Who) specified?
 
-> **Simply clarify whose responsibility this decision remains as.**
-
-- Human?
-- AI?
-- Design?
-- Organization?
-
-By RCA, the decision does not "end", but comes to **"persist"**.
+> **RP is not concerned with the content of individual judgments. It guarantees the "legitimacy of the procedure."**
 
 ---
 
-## Why All 4 Are Necessary
+## Why are these three needed?
 
-Without BOA,
-AI intrudes into places where it should not decide.
+-   Without **BOA (Structure)**, it becomes unclear where judgments are being made.
+-   Without **RCA (Agent)**, no one takes responsibility, and only mechanical processing runs.
+-   Without **RP (Criteria)**, individual arbitrary judgments would pass as organizational decisions.
 
-Without IDG,
-Indeterminability turns into failure in silence.
-
-Without RP,
-Decisions are finalized arbitrarily.
-
-Without RCA,
-Decisions vanish without belonging to anyone.
-
-BOA Core **is established only when all of these are present.**
+With these three in place, BOA Core realizes "Responsible Autonomy."
 
 ---
 
-## What to Read Next
+## What to read next
 
-- How decisions flow and where they stop
-  → `03_flow_of_decision.md`
-
-- Meaning of indeterminable, stop, and unwind
-  → `04_failure_and_stop.md`
+-   How decisions flow and where they stop
+    → `03_flow_of_decision.md`

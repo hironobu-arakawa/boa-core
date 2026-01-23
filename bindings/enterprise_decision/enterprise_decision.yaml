@@ -49,4 +49,4 @@ responsibility_model:
     - id: decision_body
       nature: "Commander / Responsible Owner (Resolution Authority)"
 
-# NOTE: Governance and audit logging details are delegated to IDG/BOA contexts.
+# NOTE: Governance and audit logging details are delegated to RCA/BOA contexts.

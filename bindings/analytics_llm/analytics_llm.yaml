@@ -45,4 +45,4 @@ responsibility_model:
       nature: "Owner of Context and Responsibility"
       constraint: "Must explicitly resolve Hypotheses."
 
-# NOTE: Implementation details (logging, security, metrics) are delegated to IDG/BOA layers.
+# NOTE: Implementation details (logging, security, metrics) are delegated to RCA/BOA layers.

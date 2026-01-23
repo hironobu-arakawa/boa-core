@@ -1,10 +1,10 @@
 profiles_index:
   purpose: >
-    Domain/interface mappings for IDG.
-    These files are non-normative: they must not change pass/block decisions.
+    Domain/interface mappings for RCA.
+    These files are non-normative binding definitions.
   invariants:
-    - "Profiles must not introduce new gate rules."
-    - "Profiles must not override IDG output semantics."
+    - "Profiles must not introduce new RCA acceptance policies (use specs for that)."
+    - "Profiles must not override RCA closure states."
     - "Profiles only provide vocabulary: interface_kind / do_not_model / examples."
   entries:
     - id: analytics_llm

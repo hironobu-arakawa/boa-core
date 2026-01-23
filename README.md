@@ -97,49 +97,32 @@ All escalations require **explicit human resolution**.
 
 ---
 
-### IDG: Interface Determinability Gate
+### RCA: Responsibility Closure Agent
+In BOA,
+**AI may have "Capability" but cannot hold "Responsibility".**
 
-In BOA,  
-**capability (Capability) does not mean determinability (Determinability).**
+Just because a system can infer a state does not mean
+it constitutes a responsible judgment.
 
-Just because a system can infer a state does not mean  
-it is permissible to use it in judgment.
-
-BOA defines, as a boundary pattern to address this problem,  
-**IDG (Interface Determinability Gate)**.
-
----
-
-### Principles IDG Protects
-
-- **Determinability over capability**  
-  Unless a state can be determined deterministically  
-  from an interface or authenticated sensing,  
-  AI must not infer or assume it.
-
-- **Explicit Detachment**  
-  When determinability is not met,  
-  AI must **explicitly detach** from decision support.
-
-Expressions like "maybe", "probably", "usually"  
-are explicitly prohibited in boundary design.
-
-In IDG, silence is not failure.  
-It is **a normal result of maintaining boundaries**.
+BOA defines, as an agentic pattern to address this problem,
+**RCA (Responsibility Closure Agent)**.
 
 ---
 
-### Position within BOA
+### Principles RCA Protects
 
-IDG is  
-one of the **boundary patterns (Boundary Pattern)** in BOA,
+- **Explicit Intent**
+  RCA must explicitly indicate one of the following intentions regarding the input:
+  - **ACCEPTED**: Accepts responsibility and signs.
+  - **DENIED**: Rejects judgment due to unsatisfied conditions.
+  - **UNKNOWN**: Lacks sufficient information to judge.
 
-existing to:
+- **No Silent Failure**
+  When RCA does not accept responsibility (DENIED/UNKNOWN),
+  the process must stop or escalate to a human.
+  Proceeding with ambiguity is not permitted.
 
-- Not make judgments itself
-- Only determine the conditions under which judgment is appropriate
-
-([Reference: determinability_gate.yaml](/specs/determinability_gate.yaml))
+([Reference: responsibility_closure_agent.yaml](/specs/responsibility_closure_agent.yaml))
 
 ---
 
