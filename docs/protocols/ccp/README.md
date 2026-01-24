@@ -6,6 +6,28 @@ Maintainer: VCDesign Project
 
 ---
 
+> **Protocol Manifesto**
+>
+> Judgments are always closed as either affirmative, negative, or unknown,
+> and the decision rule does not change while executing that judgment.
+>
+> To sustain value, the Continuer observes changes in decision rules
+> and the environment, and changes the decision rules.
+>
+> When chaining or composing judgments is required,
+> each judgment makes responsibility boundaries explicit,
+> and they connect only on the premise that each is "closed."
+>
+> If, during connection,
+> it is judged that those boundaries or premises have broken,
+> a mid-course reversal is performed and the judgment must not be closed.
+>
+> And when value can no longer be maintained,
+> it must be acknowledged that the premise for continuing that judgment is lost,
+> and the judgment must be abandoned.
+
+---
+
 ## 1. Overview
 
 CCP Handshake is the **minimal protocol for AI to autonomously construct interfaces on the fly**.
