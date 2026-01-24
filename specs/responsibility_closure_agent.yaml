@@ -11,7 +11,7 @@
 #   - Do not hide the "unknown" state.
 #   - Do not bypass the Requirement of explicit signature.
 
-rca:
+responsibility_closure_agent:
   name: "Responsibility Closure Agent"
   short_name: "RCA"
   version: "1.0.0"

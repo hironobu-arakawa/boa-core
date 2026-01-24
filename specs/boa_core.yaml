@@ -33,6 +33,25 @@ boa_core:
       - optimize_judgments
 
   # -------------------------------------------------------------------
+  # Boundary Definition (Admission Contract)
+  # -------------------------------------------------------------------
+  boundary_definition:
+    concept: "Boundary as an Admission Contract for RCA"
+    description: >
+      A boundary is explicitly defined by the set of conditions 
+      that must be met before an RCA can accept responsibility.
+    
+    admission_contract: # RCAに渡すための必須入力項目
+      required_fields:
+        - scope_declared      # 何を判断するのか
+        - owner_declared      # 誰（またはどのプール）が持つのか
+        - evidence_attached   # 根拠は何か（Log/Metrics）
+        - risk_class          # 失敗時の許容度
+        - rollback_path       # ダメだった時の戻し方
+      
+      behavior_on_violation: "Reject before RCA processing (or Force Close as UNKNOWN)"
+
+  # -------------------------------------------------------------------
   # Core components (normative)
   # -------------------------------------------------------------------
   components:
@@ -158,8 +177,11 @@ boa_core:
         or delegates responsibility for a judgment.
       authoritative_spec: "/specs/responsibility_closure_agent.yaml"
 
-      # ↓ この参照を追加
-      profile_index_ref: "/patterns/responsibility_closure_agent/profiles/profiles_index.yaml"
+      configuration_guidance:
+        recommended_structure:
+          patterns_dir: "./patterns"
+          profiles_index: "profiles_index.yaml"
+        note: "Pattern definitions are optional but recommended for implementation."
 
       guarantees:
         - "does_not_silently_pass"
