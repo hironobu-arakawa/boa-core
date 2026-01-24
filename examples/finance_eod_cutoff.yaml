@@ -101,5 +101,5 @@ ai_usage:
   forbidden:
     - "Set status=official"
     - "Override cutoff rules"
-  idg_check:
+  rca_assessment_criteria:
     - "Is market data complete? If No -> Detach"

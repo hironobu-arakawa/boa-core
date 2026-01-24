@@ -114,5 +114,5 @@ ai_usage:
   forbidden:
     - "Select policy version"
     - "Set outcome eligible/not_eligible"
-  idg_check:
+  rca_assessment_criteria:
     - "Is policy version unambiguous? If No -> Detach"

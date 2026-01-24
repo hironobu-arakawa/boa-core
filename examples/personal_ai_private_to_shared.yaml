@@ -102,7 +102,7 @@ ai_usage:
     - "Generate private hypotheses"
     - "Draft alternative options"
     - "Explain trade-offs"
-  idg_check:
+  rca_assessment_criteria:
     - "Is context purely private? If Yes -> Allowed in private scope"
     - "Is inference deterministic? If No -> Detach from shared decision"
   forbidden:
