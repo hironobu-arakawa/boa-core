@@ -1,4 +1,5 @@
 # CCP Handshake Specification
+CCP = Continuity Claim Protocol（連続性主張プロトコル）
 Version: 2.0  
 Status: Draft-Stable  
 Maintainer: VCDesign Project
@@ -181,4 +182,3 @@ CCP Handshake は **責任と境界の連続性を保証するための最小プ
 
 MIT License  
 © VCDesign Project
-
