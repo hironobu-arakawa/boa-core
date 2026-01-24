@@ -29,10 +29,6 @@ Maintainer: VCDesign Project
 ---
 
 ## 1. Overview
-(以下、既存のOverviewへ続く)
----
-
-## 1. Overview
 
 CCP Handshake は、AI 同士が **その場でインターフェースを自律構築するための最小プロトコル** である。
 
