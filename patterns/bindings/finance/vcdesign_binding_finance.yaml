@@ -1,0 +1,49 @@
+version: 2.0
+kind: vcd_domain_binding
+id: vcdesign_binding_finance
+
+name:
+  en: Finance Binding
+  ja: 金融バインディング
+
+description:
+  en: >
+    Finance-domain binding that treats ledgers as authoritative Facts and
+    enforces strict Responsibility boundaries before execution.
+  ja: >
+    台帳を権威あるFactとして扱い、実行前に厳格な責任境界を強制する金融ドメインバインディング。
+
+philosophy_grounding:
+  vcd_core_version: ">=2.0.0"
+  axioms:
+    - "facts_are_immutable"
+    - "responsibility_non_transferable"
+
+depends_on:
+  - id: vcdesign_binding_analytics_llm
+    relation: "extends"
+
+domain_axioms:
+  - id: ledger_is_authority
+    statement: "In this domain, Ledger Entries are the primary immutable Facts."
+  - id: execution_irreversibility
+    statement: "Execution (Money Movement) creates new Facts that cannot be undone, only compensated."
+
+constraints:
+  fact_boundary:
+    - id: authority_check
+      rule: "Only Ledger/Signed Document sources constitute Fact."
+  
+  execution_boundary:
+    - id: resolution_gate
+      rule: "Execution requires a Resolution with Audit Trail."
+      rationale: "Prevents silent value loss through unauthorized movement."
+
+responsibility_model:
+  roles:
+    - id: verifier
+      nature: "Provider of deterministic evidence."
+    - id: approver
+      nature: "Bearer of financial risk responsibility."
+
+# NOTE: Implementation details are delegated to RCA/BOA layers.

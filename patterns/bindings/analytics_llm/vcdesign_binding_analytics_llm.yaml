@@ -1,0 +1,48 @@
+version: 2.0
+kind: vcd_domain_binding
+id: vcdesign_binding_analytics_llm
+
+name:
+  en: Analytics LLM Binding
+  ja: 分析LLMバインディング
+
+description:
+  en: >
+    A domain binding that constraints Generative AI usage to Hypothesis generation,
+    enforcing the philosophical separation of Interpretation and Responsibility.
+  ja: >
+    生成AI（LLM）の利用を「仮説（Hypothesis）」に限定し、
+    解釈と責任の哲学的分離を強制するためのドメインバインディング。
+
+philosophy_grounding:
+  vcd_core_version: ">=2.0.0"
+  axioms:
+    - "interpretation_is_provisional"
+    - "responsibility_must_be_explicit"
+
+binding_intent:
+  primary_goal:
+    - "Ensure AI outputs remain Hypothesis and never become Fact without Resolution."
+    - "Enforce human Responsibility for all AI-assisted decisions."
+
+constraints:
+  interpretation_boundary:
+    - id: hypothesis_classification
+      rule: "All AI outputs must be classified as Hypothesis (Interpretation)."
+      rationale: "Aligns with VCD Core: AI cannot hold Responsibility."
+  
+  responsibility_boundary:
+    - id: resolution_requirement
+      rule: "Conversion from Hypothesis to Decision requires an explicit Resolution act."
+      rationale: "Aligns with VCD Core: Responsibility anchors value."
+
+responsibility_model:
+  roles:
+    - id: llm
+      nature: "Generator of Interpretation (Hypothesis)"
+      constraint: "Cannot be a Responsible Actor."
+    - id: human_operator
+      nature: "Owner of Context and Responsibility"
+      constraint: "Must explicitly resolve Hypotheses."
+
+# NOTE: Implementation details (logging, security, metrics) are delegated to RCA/BOA layers.

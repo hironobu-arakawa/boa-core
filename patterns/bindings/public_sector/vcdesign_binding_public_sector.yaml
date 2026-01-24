@@ -1,0 +1,50 @@
+version: 2.0
+kind: vcd_domain_binding
+id: vcdesign_binding_public_sector
+
+name:
+  en: Public Sector Binding
+  ja: 公共セクターバインディング
+
+description:
+  en: >
+    Binding for public administration that safeguards Legitimacy and Transparency.
+    Ensures AI is used for Policy Hypothesis, not Administrative Decision.
+  ja: >
+    正当性と透明性を保護するための公共行政向けバインディング。
+    AIを「行政処分」ではなく「政策仮説」として利用することを保証する。
+
+philosophy_grounding:
+  vcd_core_version: ">=2.0.0"
+  axioms:
+    - "responsibility_must_be_explicit"
+    - "boundaries_must_be_declared"
+
+depends_on:
+  - id: vcdesign_binding_analytics_llm
+    relation: "extends"
+
+domain_axioms:
+  - id: legitimacy_principle
+    statement: "Resolution in public sector must derive from Legitimate Authority and Procedure."
+  - id: transparency_principle
+    statement: "The reasoning behind Public Resolution must be explainable (no black boxes)."
+
+constraints:
+  responsibility_boundary:
+    - id: authority_gate
+      rule: "Administrative Decisions (Resolution) cannot be automated by AI lacking legal authority."
+      rationale: "Aligns with VCD Core: Authority is granted to Roles/Persons, not Systems."
+
+  interpretation_boundary:
+    - id: policy_draft_only
+      rule: "AI outputs are Policy Drafts or Options, subject to administrative review."
+
+responsibility_model:
+  roles:
+    - id: llm_analyst
+      nature: "Policy Drafter / Data Analyst (Hypothesis)"
+    - id: public_official
+      nature: "Authority Holder (Resolution)"
+
+# NOTE: Audit trails and specific transparency reports are delegated to RCA/BOA.
