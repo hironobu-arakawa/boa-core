@@ -47,4 +47,4 @@ responsibility_model:
     - id: legal_counsel
       nature: "Legal Opinion Owner (Resolution)"
 
-# NOTE: Jurisdiction checks and versioning logic are delegated to IDG/BOA.
+# NOTE: Jurisdiction checks and versioning logic are delegated to RCA/BOA.

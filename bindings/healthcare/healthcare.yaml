@@ -48,4 +48,4 @@ responsibility_model:
     - id: clinician
       nature: "Licensed Responsible Actor (Resolution)"
 
-# NOTE: Privacy (HIPAA/GDPR) compliance details are delegated to IDG/BOA context.
+# NOTE: Privacy (HIPAA/GDPR) compliance details are delegated to RCA/BOA context.

@@ -94,7 +94,7 @@ ai_positioning:
     - decide materiality
     - override cutoff rules
 
-  idg_constraints:
+  rca_constraints:
     - "If market data is missing, AI must not infer prices (Detach)"
     - "AI confidence scores cannot substitute for Reconciliation"
 

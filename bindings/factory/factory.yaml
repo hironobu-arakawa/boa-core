@@ -45,4 +45,4 @@ responsibility_model:
     - id: factory_manager
       nature: "Responsible Owner for safety thresholds and override decisions"
 
-# NOTE: Specific SLOs and connection protocols are delegated to IDG/BOA.
+# NOTE: Specific SLOs and connection protocols are delegated to RCA/BOA.

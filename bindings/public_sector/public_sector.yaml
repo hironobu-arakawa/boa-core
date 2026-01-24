@@ -95,7 +95,7 @@ ai_positioning:
     - decide enforcement actions
     - generate official statements without approval
 
-  idg_constraints:
+  rca_constraints:
     - "If policy applicability is ambiguous, AI must detach"
     - "No inference of 'intent' from incomplete records"
 
