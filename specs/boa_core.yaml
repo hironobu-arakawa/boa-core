@@ -72,6 +72,12 @@ boa_core:
         or delegates responsibility for a judgment.
       authoritative_spec: "/specs/responsibility_closure_agent.yaml"
       version: "1.0.0" # Frozen reference
+      
+      configuration_guidance:
+        recommended_structure:
+          patterns_dir: "./patterns"
+          profiles_index: "profiles_index.yaml"
+        note: "Pattern definitions are optional but recommended for implementation."
       guarantees:
         - "does_not_silently_pass"
         - "requires_signature_for_acceptance"
@@ -170,20 +176,4 @@ boa_core:
       Anything beyond this structure remains human judgment.
 
 
-    responsibility_closure_agent:
-      name: "Responsibility Closure Agent (RCA)"
-      role: >
-        Evaluates input and explicitly accepts (signs), rejects,
-        or delegates responsibility for a judgment.
-      authoritative_spec: "/specs/responsibility_closure_agent.yaml"
 
-      configuration_guidance:
-        recommended_structure:
-          patterns_dir: "./patterns"
-          profiles_index: "profiles_index.yaml"
-        note: "Pattern definitions are optional but recommended for implementation."
-
-      guarantees:
-        - "does_not_silently_pass"
-        - "requires_signature_for_acceptance"
-        - "explicit_unknown_state"
