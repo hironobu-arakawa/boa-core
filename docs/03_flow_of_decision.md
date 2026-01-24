@@ -15,7 +15,7 @@ Decisions proceed only in the following order:
 2. **RCA** (Responsibility Acceptance - Who?)
 3. **RP**  (Resolution Certification - How to handle?)
 
-This order cannot be changed. The traditional IDG (determinability check) has been integrated into the RCA process.
+This order cannot be changed.
 
 ---
 
@@ -78,7 +78,7 @@ RCA indicates its **"intention as an agent"** regarding the input judgment case.
 -   **DENIED**: "I will not judge (reject)."
 -   **UNKNOWN**: "I cannot decide (unknown)."
 
-This is a more active step that replaces the former IDG (determinability check).
+This is a more active step beyond mechanical determination.
 Unless RCA nods yes, simple processing will absolutely not proceed.
 
 ### 3. RP — Resolution Protocol

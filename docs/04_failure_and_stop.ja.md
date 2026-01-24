@@ -45,7 +45,7 @@ BOA Core では、
 
 ## Return は責任ある動作である
 
-IDG や RP が返す Return は、  
+RCA や RP が返す Return は、  
 判断の放棄ではありません。
 
 Return が意味するのは：
@@ -83,7 +83,7 @@ BOA Core では、
 
 ### 判断不能は「能力不足」ではない
 
-IDG が Indeterminable を返す理由は、  
+RCA が UNKNOWN を返す理由は、  
 AIの能力不足とは限りません。
 
 - 入力が揃っていない

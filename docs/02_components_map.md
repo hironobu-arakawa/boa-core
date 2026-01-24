@@ -2,7 +2,7 @@
 
 This document defines the elements that make up BOA Core from the perspective of **"what question they exist to answer."**
 
-The traditional IDG (mechanical gate) has been abolished, and the RCA (agentic subject) has subsumed its role.
+RCA (agentic judge) plays the central role in judgment.
 
 ---
 
@@ -44,7 +44,7 @@ It physically and logically divides the areas where AI is allowed to judge from 
 "Will you accept this judgment?"**
 
 RCA is the "Agent" that actually performs the judgment within the place defined by BOA.
-It subsumes the role of the former IDG (gate), performing not just mechanical determination but expressing its will as an agent.
+It performs not just mechanical determination but expresses its will as an agent.
 
 RCA indicates one of the following "intentions" regarding the input:
 

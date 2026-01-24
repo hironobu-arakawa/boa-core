@@ -10,4 +10,4 @@ The problem BOA attempts to solve is simple:
 - Whose **responsibility** does it become?
 
 If these remain ambiguous,
-IDG, RP, and RCA lose their meaning.
+RP and RCA lose their meaning.

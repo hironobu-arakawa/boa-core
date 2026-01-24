@@ -11,7 +11,7 @@ BOA Core は、
 
 ## これはフレームワークではありません
 
-BOA / IDG / RP / RCA は、
+BOA / RCA / RP は、
 一般的な意味でのレイヤードアーキテクチャやフレームワークではありません。
 
 - 処理を分割するための層ではない
@@ -25,21 +25,18 @@ BOA / IDG / RP / RCA は、
 
 ---
 
-## 含まれる4つの構造
+## 含まれる3つの構造
 
-この BOA Core には、以下の4つが含まれます。
+この BOA Core には、以下の3つが含まれます。
 
 - **BOA (Boundary-Oriented Architecture)**  
   判断が許される境界を宣言する
 
-- **IDG (Interface Determinability Gate)**  
-  判断可能な状態かどうかを評価する
+- **RCA (Responsibility Closure Agent)**  
+  判断の責任を引き受け、完了させる
 
 - **RP (Resolution Protocol)**  
   判断を進める／止める／戻すことを明示的に選ぶ
-
-- **RCA (Responsibility Closure Architecture)**  
-  判断の責任を閉じ、残す
 
 重要なのは、  
 **これらが同時に存在するのではない** という点です。
@@ -49,8 +46,8 @@ BOA / IDG / RP / RCA は、
 ## 判断の基本的な流れ（要約）
 
 1. システムは BOA に到達する  
-2. 境界条件を満たした場合のみ、IDG に進む  
-3. IDG が「判断可能」と示した場合のみ、RP が起動する  
+2. RCA が Assessment（判断引き受けの評価）を行う
+3. RCA が「引き受ける（Accepted）」とした場合のみ、RP が起動する  
 4. RP は必ず以下のいずれかを返す  
    - Resolve（決める）
    - Reject（却下する）

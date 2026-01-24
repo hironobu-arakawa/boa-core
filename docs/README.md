@@ -1,6 +1,6 @@
 # BOA Core – Documentation
 
-This directory is **explanation material for reading with BOA / IDG / RP / RCA already aligned.**
+This directory is **explanation material for reading with BOA / RCA / RP already aligned.**
 
 What is written here is neither implementation steps nor specification details.
 The purpose of these docs is just one thing:
@@ -25,7 +25,7 @@ Those are in their respective repositories and specifications.
 ## What These Docs Cover
 
 - Why BOA is placed first
-- Difference in roles of BOA / IDG / RP / RCA
+- Difference in roles of BOA / RCA / RP
 - Structure where decision "proceeds", "stops", "returns"
 - Design of how to handle failure and indeterminability
 

@@ -9,7 +9,7 @@ This repository is not about "producing the correct answer."
 
 ## This is Not a Framework
 
-BOA / IDG / RP / RCA are not a layered architecture or framework in the general sense.
+BOA / RCA / RP are not a layered architecture or framework in the general sense.
 
 - They are not layers for dividing processing.
 - They are not role assignments for organizing responsibilities.
@@ -20,21 +20,18 @@ They are all:
 
 ---
 
-## The 4 Included Structures
+## The 3 Included Structures
 
-This BOA Core includes the following four components:
+This BOA Core includes the following three components:
 
 - **BOA (Boundary-Oriented Architecture)**
   Declares the boundary where decisions are allowed.
 
-- **IDG (Interface Determinability Gate)**
-  Evaluates whether the state is determinable.
+- **RCA (Responsibility Closure Agent)**
+  Takes responsibility for and completes the decision.
 
 - **RP (Resolution Protocol)**
   Explicitly chooses to proceed, stop, or return the decision.
-
-- **RCA (Responsibility Closure Architecture)**
-  Closes and retains the responsibility of the decision.
 
 The important point is that **these do not exist simultaneously.**
 
@@ -43,8 +40,8 @@ The important point is that **these do not exist simultaneously.**
 ## Basic Flow of Decision (Summary)
 
 1. The system reaches **BOA**.
-2. Advances to **IDG** only if boundary conditions are met.
-3. **RP** activates only if IDG indicates "Determinable".
+2. **RCA** performs an Assessment (Evaluation of willingness to take responsibility).
+3. **RP** activates only if RCA indicates "Accepted".
 4. RP always returns one of the following:
    - **Resolve** (Decide)
    - **Reject** (Discard)

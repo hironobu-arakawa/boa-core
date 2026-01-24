@@ -41,7 +41,7 @@ This is neither rejection nor failure, but **termination as designed**.
 
 ## Return is a Responsible Action
 
-Return returned by IDG or RP is not an abandonment of decision.
+Return returned by RCA or RP is not an abandonment of decision.
 
 What Return means is:
 
@@ -76,7 +76,7 @@ RESOLVE | REJECT | RETURN
 
 ### Indeterminable is Not "Lack of Ability"
 
-The reason IDG returns Indeterminable is not necessarily a lack of AI ability.
+The reason RCA returns UNKNOWN is not necessarily a lack of AI ability.
 
 - Inputs are not complete
 - Context is temporally broken
